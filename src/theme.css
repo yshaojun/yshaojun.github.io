@@ -27,7 +27,7 @@ article {
 }
 
 article .desc {
-  margin-top: 250px;
+  margin-top: 150px;
   text-align: center;
 }
 
@@ -38,6 +38,19 @@ article .desc h1 {
 article .desc p {
   margin-top: 20px;
   font-size: 16px;
+}
+
+article .article-list {
+    width: 400px;
+    min-height: 400px;
+    margin: 50px auto auto auto;
+    padding: 10px;
+    border: #ddd solid 1px;
+    border-radius: 5px;
+}
+
+article .article-list ul{
+    margin-top: 10px;
 }
 
 footer > div {
