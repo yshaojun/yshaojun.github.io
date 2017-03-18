@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>20170318-py-iterator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>Python 协议二 Iterator</h1>
+<ul>
+<li>文档创建：2017/3/18 12:17:19</li>
+<li>最后修改：2017/3/18 13:57:09</li>
+</ul>
+<p>本文介绍 Python 迭代器协议和应用。</p>
+<h2>1. 定义</h2>
+<p>实现了如下两个方法的对象即是一个迭代器。</p>
+<pre><code>iterator.__iter__() # 返回对象本身
+iterator.next()     # 返回下一个值，超出则 raise StopIteration
+</code></pre>
+
+<p>如果一个想要普通的容器对象支持迭代，则需要实现如下方法。</p>
+<pre><code>container.__iter__() # 返回一个上面定义的迭代器对象
+</code></pre>
+
+<p>值得注意的是，容器仅仅是提供迭代支持，而不是迭代器。</p>
+<h2>2. 调用</h2>
+<ol>
+<li>直接调用 <code>next()</code> 函数，这种方式不能应用于容器，因为容器里没有定义 <code>next()</code> 方法；</li>
+<li>在 <code>for...in</code> 语句中调用，这种方式迭代器和容器都支持。</li>
+</ol>
+<h2>3. 举例</h2>
+<pre><code>&gt;&gt;&gt; class MyIterator(object):
+...     def __init__(self):
+...         self.a = [1, 2, 3, 4, 5]
+...         self.i = 0
+...     def __iter__(self):
+...         return self
+...     def next(self):
+...         if self.i &gt; 4:
+...             raise StopIteration
+...         v = self.a[self.i]
+...         self.i += 1
+...         return v
+
+&gt;&gt;&gt; for i in MyIterator():
+...     print i
+1
+2
+3
+4
+5
+
+&gt;&gt;&gt; class MyContainer(object):
+...     def __init__(self):
+...         self.mi = MyIterator()
+...     def __iter__(self):
+...         return self.mi
+
+&gt;&gt;&gt; for i in MyContainer():
+...     print i
+1
+2
+3
+4
+5
+
+&gt;&gt;&gt;
+</code></pre>
+
+<h2>4. 应用</h2>
+<ol>
+<li><code>for...in</code> 语句支持；</li>
+<li>Python 生成器（Generator）。</li>
+</ol>
+<p>以下将介绍 Python 生成器相关知识。</p>
+<ol>
+<li>生成器定义：一个函数包含 <code>yield</code> 语句，则该函数执行后返回一个生成器。</li>
+</ol>
+<h1></h1>
+<pre><code>&gt;&gt;&gt; def g():
+...     yield 1
+
+&gt;&gt;&gt; type(g)
+&lt;type 'function'&gt;
+
+&gt;&gt;&gt; type(g())
+&lt;type 'generator'&gt;
+</code></pre>
+
+<ol>
+<li>生成器方法，包含迭代器协议的 <code>__iter__</code> 和 <code>next()</code> 方法。</li>
+</ol>
+<h1></h1>
+<pre><code>&gt;&gt;&gt; dir(g())
+['__class__', '__delattr__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '_
+_iter__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof
+__', '__str__', '__subclasshook__', 'close', 'gi_code', 'gi_frame', 'gi_running', 'next', 'send', 't
+hrow']
+</code></pre>
+
+<ul>
+<li><code>generator.next()</code> ；</li>
+<li><code>generator.send(value)</code>；</li>
+<li><code>generator.throw(type[, value[, traceback]])</code>；</li>
+<li><code>generator.close()</code>;</li>
+</ul>
+<p>函数的用法和用途在 <a href="https://docs.python.org/2.7/reference/expressions.html#generator-iterator-methods">Generator-iterator methods</a> 有介绍，此处不再列出。</p>
+<p>可以看到，<code>yield</code> 能暂停函数执行并保存上下文， <code>generator.send(value)</code> 和 <code>generator.next()</code> 可以让函数在上次的位置继续执行，这给在 Python 代码层面调度函数提供了可能。如果实现了这种“调度器”，实际上就实现了用户态的例程调度，即所谓的 <strong>协程</strong>。</p>
+<p>这类调度器的实现有 <a href="http://www.tornadoweb.org/en/stable/ioloop.html">tornado ioloop</a> 和 Python 3 的 <a href="https://docs.python.org/3.6/library/asyncio.html">asyncio event loop</a> 等等。</p>
+<h2>5. 参考</h2>
+<ol>
+<li><a href="https://docs.python.org/2.7/library/stdtypes.html#iterator-types">官方文档 - Iterator Types</a>；</li>
+<li><a href="https://docs.python.org/2.7/reference/expressions.html#yieldexpr">官方文档 - Yield expressions</a>。</li>
+</ol>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
