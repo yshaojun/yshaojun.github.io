@@ -1,0 +1,698 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/public/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/public/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/public/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="文档创建：2017/3/12 15:36:51最后更新：2017/4/3 14:28:59
+在 Python 中，如果对象实现了某些特定方法，则称该对象实现了某协议，例如 迭代器协议、上下文管理器协议、描述符协议 等。本文记录学习描述符协议时的一些要点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 协议一 Descriptor">
+<meta property="og:url" content="https://yshaojun.github.io/2017/03/12/py-descriptor/index.html">
+<meta property="og:site_name" content="少君童鞋的读书笔记">
+<meta property="og:description" content="文档创建：2017/3/12 15:36:51最后更新：2017/4/3 14:28:59
+在 Python 中，如果对象实现了某些特定方法，则称该对象实现了某协议，例如 迭代器协议、上下文管理器协议、描述符协议 等。本文记录学习描述符协议时的一些要点。">
+<meta property="og:updated_time" content="2017-04-03T06:59:33.731Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 协议一 Descriptor">
+<meta name="twitter:description" content="文档创建：2017/3/12 15:36:51最后更新：2017/4/3 14:28:59
+在 Python 中，如果对象实现了某些特定方法，则称该对象实现了某协议，例如 迭代器协议、上下文管理器协议、描述符协议 等。本文记录学习描述符协议时的一些要点。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/public/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://yshaojun.github.io/2017/03/12/py-descriptor/"/>
+
+
+
+
+
+  <title> Python 协议一 Descriptor | 少君童鞋的读书笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/public/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">少君童鞋的读书笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">纸上得来终觉浅，绝知此事要躬行</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/public/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/public/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://yshaojun.github.io/public/2017/03/12/py-descriptor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="少君童鞋">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/public/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="少君童鞋的读书笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python 协议一 Descriptor
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T15:36:51+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文档创建：2017/3/12 15:36:51<br>最后更新：2017/4/3 14:28:59</p>
+<p>在 Python 中，如果对象实现了某些特定方法，则称该对象实现了某协议，例如 <a href="https://docs.python.org/2.7/library/stdtypes.html#iterator-types" target="_blank" rel="external">迭代器协议</a>、<a href="https://docs.python.org/2.7/library/stdtypes.html#context-manager-types" target="_blank" rel="external">上下文管理器协议</a>、<a href="https://docs.python.org/2.7/reference/datamodel.html#implementing-descriptors" target="_blank" rel="external">描述符协议</a> 等。本文记录学习描述符协议时的一些要点。</p>
+<a id="more"></a>
+<h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h2><p>实现了如下三个方法的对象即是一个描述符。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">descr.__get__(self, obj, type=None) --&gt; value</div><div class="line">descr.__set__(self, obj, value) --&gt; None</div><div class="line">descr.__delete__(self, obj) --&gt; None</div></pre></td></tr></table></figure>
+<p>数据描述符（data descriptor）：定义了 <code>__get__()</code> 和 <code>__set__()</code> ；<br>非数据描述符（non-data descriptor）：只定义了 <code>__get__()</code> 。<br>两种描述符的区别在于方法覆盖优先级。如果实例字典里有与数据描述符同名的属性，则数据描述符优先；如果实例字典里有与非数据描述符同名的属性，则实例字典的优先。</p>
+<h2 id="2-调用"><a href="#2-调用" class="headerlink" title="2. 调用"></a>2. 调用</h2><p>描述符调用方式有如下4种：</p>
+<ol>
+<li>直接调用，<code>x.__get__(a)</code> ；</li>
+<li>实例绑定，<code>a.x</code> 等价于 <code>type(a).__dict__[&#39;x&#39;].__get__(a, type(a))</code> ；</li>
+<li>类绑定，<code>A.x</code> 等价于 <code>A.__dict__[&#39;x&#39;].__get__(None, A)</code> ；</li>
+<li>Super 绑定，<code>A.__dict__[&#39;m&#39;].__get__(obj, obj.__class__)</code> 。</li>
+</ol>
+<h2 id="3-举例"><a href="#3-举例" class="headerlink" title="3. 举例"></a>3. 举例</h2><p>代码出处在 <a href="https://docs.python.org/2.7/howto/descriptor.html#descriptor-example" target="_blank" rel="external">这里</a> 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RevealAccess</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">"""A data descriptor that sets and returns values</span></div><div class="line">        normally and prints a message logging their access.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, initval=None, name=<span class="string">'var'</span>)</span>:</span></div><div class="line">        self.val = initval</div><div class="line">        self.name = name</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, obj, objtype)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'Retrieving'</span>, self.name</div><div class="line">        <span class="keyword">return</span> self.val</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__set__</span><span class="params">(self, obj, val)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'Updating'</span>, self.name</div><div class="line">        self.val = val</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(object)</span>:</span></div><div class="line"><span class="meta">... </span>    x = RevealAccess(<span class="number">10</span>, <span class="string">'var "x"'</span>)</div><div class="line"><span class="meta">... </span>    y = <span class="number">5</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m = MyClass()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.x</div><div class="line">Retrieving var <span class="string">"x"</span></div><div class="line"><span class="number">10</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.x = <span class="number">20</span></div><div class="line">Updating var <span class="string">"x"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.x</div><div class="line">Retrieving var <span class="string">"x"</span></div><div class="line"><span class="number">20</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m.y</div><div class="line"><span class="number">5</span></div></pre></td></tr></table></figure>
+<p>从上述代码可以看出，描述符的本质是 <strong>对象属性的自定义读写</strong> ，Python 描述符和 Java  <code>set()</code> / <code>get()</code> 的功能大致相当，基本就是个“语法糖”的作用。<br>示例代码是在类里使用描述符的，那么能不能在实例里使用呢？答案是 <strong>不能</strong> 。因为在 “2. 调用” 一节的 “实例绑定” 可以看到 <code>a.x</code> 被转换为 <code>type(a).__dict__[&#39;x&#39;].__get__(a, type(a))</code> ，而 <code>type(a)</code> 返回的是实例的类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyClass1</span><span class="params">(object)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line"><span class="meta">... </span>        self.x = RevealAccess(<span class="number">10</span>, <span class="string">'var "x"'</span>)</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m1 = MyClass1()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>m1.x</div><div class="line">&lt;RevealAccess object at <span class="number">0x0000000003D66518</span>&gt;</div></pre></td></tr></table></figure>
+<h2 id="4-应用"><a href="#4-应用" class="headerlink" title="4. 应用"></a>4. 应用</h2><p>Python 使用描述符主要用途如下：</p>
+<ol>
+<li><code>@property</code>；</li>
+<li><code>@classmethod</code>；</li>
+<li><code>@staticmethod</code>；</li>
+<li>实例方法绑定，实现细节在 <a href="https://docs.python.org/2.7/howto/descriptor.html#functions-and-methods" target="_blank" rel="external">这里</a>。</li>
+</ol>
+<h2 id="5-参考"><a href="#5-参考" class="headerlink" title="5. 参考"></a>5. 参考</h2><ol>
+<li><a href="https://docs.python.org/2.7/reference/datamodel.html#implementing-descriptors" target="_blank" rel="external">官方文档 - 3.4.2.2. Implementing Descriptors</a>；</li>
+<li><a href="https://docs.python.org/2.7/howto/descriptor.html#descriptor-howto-guide" target="_blank" rel="external">官方文档 - Descriptor HowTo Guide</a>；</li>
+<li><a href="http://python.jobbole.com/83562/" target="_blank" rel="external">伯乐在线 - Python官方文档：Descriptor 指南</a>；</li>
+<li><a href="https://xin053.github.io/2016/11/29/Python%E6%8F%8F%E8%BF%B0%E7%AC%A6descriptor/" target="_blank" rel="external">xin053 - Python描述符descriptor</a>;</li>
+<li><a href="https://www.zhihu.com/question/25391709" target="_blank" rel="external">知乎 - 如何理解 Python 的 Descriptor？刘缙的回答</a>。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/public/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/public/2017/03/18/py-iterator/" rel="prev" title="Python 协议二 Iterator">
+                Python 协议二 Iterator <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/public/images/avatar.jpg"
+               alt="少君童鞋" />
+          <p class="site-author-name" itemprop="name">少君童鞋</p>
+           
+              <p class="site-description motion-element" itemprop="description">少君童鞋的读书笔记</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/public/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-定义"><span class="nav-number">1.</span> <span class="nav-text">1. 定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-调用"><span class="nav-number">2.</span> <span class="nav-text">2. 调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-举例"><span class="nav-number">3.</span> <span class="nav-text">3. 举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-应用"><span class="nav-number">4.</span> <span class="nav-text">4. 应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-参考"><span class="nav-number">5.</span> <span class="nav-text">5. 参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">少君童鞋</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/public/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/public/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/public/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/public/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/public/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/public/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/public/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/public/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/public/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/public/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/public/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/public/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/public/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
