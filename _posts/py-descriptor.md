@@ -4,8 +4,8 @@ date: 2017/3/12 15:36:51
 tags: Python
 ---
 
-文档创建：2017/3/12 15:36:51
-最后更新：2017/4/3 14:28:59
+- 文档创建：2017/3/12 15:36:51
+- 最后更新：2017/4/3 15:57:43
 
 在 Python 中，如果对象实现了某些特定方法，则称该对象实现了某协议，例如 [迭代器协议](https://docs.python.org/2.7/library/stdtypes.html#iterator-types)、[上下文管理器协议](https://docs.python.org/2.7/library/stdtypes.html#context-manager-types)、[描述符协议](https://docs.python.org/2.7/reference/datamodel.html#implementing-descriptors) 等。本文记录学习描述符协议时的一些要点。
 
