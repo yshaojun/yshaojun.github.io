@@ -5,7 +5,7 @@ tags: Python
 ---
 
 - 文档创建：2017/4/3 17:20:10
-- 最后更新：2017/4/3 20:52:51
+- 最后更新：2017/4/8 13:24:21
 
 Python 里 **万物皆对象** ，同样函数也是一种对象，因此 **一个函数可以作为另一个函数的参数和返回值** ，这是 Python 装饰器实现的基础。
 
@@ -19,8 +19,8 @@ Python 里 **万物皆对象** ，同样函数也是一种对象，因此 **一�
     >>> def f0():
     ...     return "f0"
 
-    >>> def f1(f0):
-    ...     return f0()
+    >>> def f1(f):
+    ...     return f()
 
     >>> f1(f0)
     'f0'
@@ -33,7 +33,6 @@ Python 里 **万物皆对象** ，同样函数也是一种对象，因此 **一�
 函数 `_f2` 是 `f2` 的返回值。
 
 ``` Python
-
     >>> def f2():
     ...     def _f2():
     ...         return "_f2"
@@ -90,7 +89,7 @@ Python 里 **万物皆对象** ，同样函数也是一种对象，因此 **一�
     Do after func
 ```
 
-这就是我们常见的装饰器了。在分析含装饰器代码的时候，我们一定要 **记住** 以下两种写法等效（代码来自：[Glossary](https://docs.python.org/2.7/glossary.html)）：
+这就是我们常见的装饰器了。在分析含装饰器代码的时候，我们一定要 **记住** 以下两种写法等效（代码来自：[官方文档 - decorator](https://docs.python.org/2.7/glossary.html#term-decorator)）：
 
 ``` Python
     def f(...):
@@ -175,4 +174,4 @@ Python 里 **万物皆对象** ，同样函数也是一种对象，因此 **一�
 
 ## 7. 参考 ##
 
-1. [官方文档 - Glossary](https://docs.python.org/2.7/glossary.html) 。
+1. [官方文档 - decorator](https://docs.python.org/2.7/glossary.html#term-decorator) 。
