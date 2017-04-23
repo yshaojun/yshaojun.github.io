@@ -87,25 +87,25 @@
 
 
 
-<meta name="description" content="文档创建：2017/4/16 13:13:39
-最后更新：2017/4/16 14:02:50
+<meta name="description" content="文档创建：2017/4/23 13:18:57
+最后更新：2017/4/23 14:45:28
 
-Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用法做个小结。">
+Python 在定义和初始化变量的时候并不需要指明类型，因此我们常用 type 去看一个变量的类型。除此之外，type 的另一个用途是创建类。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python 中的 *args / **kwargs 小结">
-<meta property="og:url" content="https://yshaojun.github.io/2017/04/16/py-args-kwargs/index.html">
+<meta property="og:title" content="Python 中的 type">
+<meta property="og:url" content="https://yshaojun.github.io/2017/04/23/py-type/index.html">
 <meta property="og:site_name" content="少君童鞋的读书笔记">
-<meta property="og:description" content="文档创建：2017/4/16 13:13:39
-最后更新：2017/4/16 14:02:50
+<meta property="og:description" content="文档创建：2017/4/23 13:18:57
+最后更新：2017/4/23 14:45:28
 
-Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用法做个小结。">
-<meta property="og:updated_time" content="2017-04-16T06:03:00.000Z">
+Python 在定义和初始化变量的时候并不需要指明类型，因此我们常用 type 去看一个变量的类型。除此之外，type 的另一个用途是创建类。">
+<meta property="og:updated_time" content="2017-04-23T06:45:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python 中的 *args / **kwargs 小结">
-<meta name="twitter:description" content="文档创建：2017/4/16 13:13:39
-最后更新：2017/4/16 14:02:50
+<meta name="twitter:title" content="Python 中的 type">
+<meta name="twitter:description" content="文档创建：2017/4/23 13:18:57
+最后更新：2017/4/23 14:45:28
 
-Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用法做个小结。">
+Python 在定义和初始化变量的时候并不需要指明类型，因此我们常用 type 去看一个变量的类型。除此之外，type 的另一个用途是创建类。">
 
 
 
@@ -133,13 +133,13 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
 
 
 
-  <link rel="canonical" href="https://yshaojun.github.io/2017/04/16/py-args-kwargs/"/>
+  <link rel="canonical" href="https://yshaojun.github.io/2017/04/23/py-type/"/>
 
 
 
 
 
-  <title> Python 中的 *args / **kwargs 小结 | 少君童鞋的读书笔记 </title>
+  <title> Python 中的 type | 少君童鞋的读书笔记 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +248,7 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://yshaojun.github.io/public/2017/04/16/py-args-kwargs/">
+    <link itemprop="mainEntityOfPage" href="https://yshaojun.github.io/public/2017/04/23/py-type/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="少君童鞋">
@@ -269,7 +269,7 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
             
             
               
-                Python 中的 *args / **kwargs 小结
+                Python 中的 type
               
             
           </h1>
@@ -284,8 +284,8 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-16T13:13:39+08:00">
-                2017-04-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-23T13:18:57+08:00">
+                2017-04-23
               </time>
             
 
@@ -321,27 +321,27 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
 
       
         <ul>
-<li>文档创建：2017/4/16 13:13:39</li>
-<li>最后更新：2017/4/16 14:02:50</li>
+<li>文档创建：2017/4/23 13:18:57</li>
+<li>最后更新：2017/4/23 14:45:28</li>
 </ul>
-<p>Python 代码中经常出现 <code>*args</code> / <code>**kwargs</code> 的函数，这里对它们的用法做个小结。</p>
+<p>Python 在定义和初始化变量的时候并不需要指明类型，因此我们常用 <code>type</code> 去看一个变量的类型。除此之外，<code>type</code> 的另一个用途是创建类。</p>
 <a id="more"></a>
-<h2 id="1-形参中的-args-kwargs"><a href="#1-形参中的-args-kwargs" class="headerlink" title="1. 形参中的 *args / **kwargs"></a>1. 形参中的 *args / **kwargs</h2><p>形参（<a href="https://docs.python.org/2.7/glossary.html#term-parameter" target="_blank" rel="external">parameter</a>）中的 <code>*args</code> / <code>**kwargs</code>，会将位置参数打包成元组赋值给变量 <code>args</code> ，将关键字参数打包成字典赋值给 <code>kwargs</code> ，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"args="</span>, args</div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"kwargs="</span>, kwargs</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>func(<span class="number">1</span>, <span class="number">2</span>, a=<span class="number">3</span>, c=<span class="number">4</span>)</div><div class="line">args= (<span class="number">1</span>, <span class="number">2</span>)</div><div class="line">kwargs= &#123;<span class="string">'a'</span>: <span class="number">3</span>, <span class="string">'c'</span>: <span class="number">4</span>&#125;</div></pre></td></tr></table></figure>
-<h2 id="2-实参中的-args-kwargs"><a href="#2-实参中的-args-kwargs" class="headerlink" title="2. 实参中的 *args / **kwargs"></a>2. 实参中的 *args / **kwargs</h2><p>实参（<a href="https://docs.python.org/2.7/glossary.html#term-argument" target="_blank" rel="external">argument</a>）中的 <code>*args</code> / <code>**kwargs</code> 与形参作用相反，会将元组 <code>args</code> 解包成位置参数，将字典 <code>kwargs</code> 解包成关键字参数，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, c, d)</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"a="</span>, a</div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"b="</span>, b</div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"c="</span>, c</div><div class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"d="</span>, d</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>args = (<span class="number">1</span>, <span class="number">2</span>)</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>kwargs = &#123;<span class="string">"c"</span>: <span class="number">3</span>, <span class="string">"d"</span>: <span class="number">4</span>&#125;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>func(*args, **kwargs)</div><div class="line">a= <span class="number">1</span></div><div class="line">b= <span class="number">2</span></div><div class="line">c= <span class="number">3</span></div><div class="line">d= <span class="number">4</span></div></pre></td></tr></table></figure>
-<h2 id="3-应用"><a href="#3-应用" class="headerlink" title="3. 应用"></a>3. 应用</h2><ol>
-<li><p>定义不定参数的函数。形参中 <code>*args</code> 能将任意个位置参数打包成元组，<code>**kwargs</code> 将任意个关键字参数打包成字典，我们可以利用这个特点写不定参数的函数。</p>
-</li>
-<li><p>增强公共 API 兼容性。很多开源项目的公共接口都预留了 <code>**setting</code> 的参数，这样在保持接口不变的情况下就能扩展功能。</p>
-</li>
-<li><p>简化函数调用。如下：</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>paths = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>]</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.join(*paths)</div><div class="line"><span class="string">'a\\b\\c\\d'</span></div><div class="line"></div><div class="line"><span class="comment"># 不必写 os.path.join(paths[0], paths[1], paths[2], paths[3])</span></div></pre></td></tr></table></figure>
+<h2 id="1-type-定义"><a href="#1-type-定义" class="headerlink" title="1. type 定义"></a>1. type 定义</h2><p><code>type</code> 有如下两种形式：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">class type(object)</div><div class="line">class type(name, bases, dict)</div></pre></td></tr></table></figure>
+<p>因此 <code>type</code> 是一个类，跟其他的类一样，类在调用时会返回一个对象。</p>
+<h2 id="2-type-应用"><a href="#2-type-应用" class="headerlink" title="2. type 应用"></a>2. type 应用</h2><p>当 <code>type</code> 只有一个参数时，调用它会返回这个这个参数的类型，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="number">1</span>)</div><div class="line">&lt;type <span class="string">'int'</span>&gt;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="number">1.0</span>)</div><div class="line">&lt;type <span class="string">'float'</span>&gt;</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span>    <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>type(func)</div><div class="line">&lt;type <span class="string">'function'</span>&gt;</div></pre></td></tr></table></figure>
+<p>当 <code>type</code> 有三个参数时，调用它会返回一个类，如下两种定义类 <code>X</code> 的方式完全等价：（代码来自<a href="library/functions.html#type">这里</a>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(object)</span>:</span></div><div class="line"><span class="meta">... </span>    a = <span class="number">1</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>X = type(<span class="string">'X'</span>, (object,), dict(a=<span class="number">1</span>))</div></pre></td></tr></table></figure>
+<p>我们可以做如下的验证来证明为什么这两种定义类的方式是等价的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line"><span class="meta">... </span>    a = <span class="number">1</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>type(A())</div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">__main__</span>.<span class="title">A</span>'&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>B = type(<span class="string">"B"</span>, (object, ), &#123;<span class="string">"a"</span>: <span class="number">1</span>&#125;)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>type(B())</div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">__main__</span>.<span class="title">B</span>'&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>dir(A())</div><div class="line">[<span class="string">'__class__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__dict__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__format__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__module__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>,<span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'__weakref__'</span>, <span class="string">'a'</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>dir(B())</div><div class="line">[<span class="string">'__class__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__dict__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__format__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__module__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>,<span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'__weakref__'</span>, <span class="string">'a'</span>]</div></pre></td></tr></table></figure>
+<p>可以看到，<code>A</code> 和 <code>B</code> 两个类除了名称不同，其他都是一样的。根据 <strong><a href="https://docs.python.org/2.7/glossary.html?highlight=duck#term-duck-typing" target="_blank" rel="external">duck-typing</a></strong> ，可以认为两者等效。</p>
+<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p><code>type</code> 是一个内置类，调用它会返回一个 <code>type</code> 对象。这个对象要么是内置的类型，要么是自定义的类，因此 <code>type</code> 实际上是 <strong>类的类</strong>，也就是所谓的 <strong>元类 (metaclass)</strong>。</p>
 <h2 id="4-参考"><a href="#4-参考" class="headerlink" title="4. 参考"></a>4. 参考</h2><ol>
-<li><a href="https://docs.python.org/2.7/glossary.html#term-parameter" target="_blank" rel="external">官方文档 - parameter</a>；</li>
-<li><a href="https://docs.python.org/2.7/glossary.html#term-argument" target="_blank" rel="external">官方文档 - argument</a>。</li>
+<li><a href="https://docs.python.org/2.7/library/functions.html#type" target="_blank" rel="external">官方文档 - type</a> ；</li>
+<li><a href="https://docs.python.org/2.7/reference/datamodel.html#customizing-class-creation" target="_blank" rel="external">官方文档 - 3.4.3. Customizing class creation</a> 。</li>
 </ol>
 
       
@@ -385,8 +385,8 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/public/2017/04/08/py-decorator-advance/" rel="next" title="Python 装饰器（进阶）">
-                <i class="fa fa-chevron-left"></i> Python 装饰器（进阶）
+              <a href="/public/2017/04/16/py-args-kwargs/" rel="next" title="Python 中的 *args / **kwargs 小结">
+                <i class="fa fa-chevron-left"></i> Python 中的 *args / **kwargs 小结
               </a>
             
           </div>
@@ -394,10 +394,6 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/public/2017/04/23/py-type/" rel="prev" title="Python 中的 type">
-                Python 中的 type <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -537,7 +533,7 @@ Python 代码中经常出现 *args / **kwargs 的函数，这里对它们的用�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-形参中的-args-kwargs"><span class="nav-number">1.</span> <span class="nav-text">1. 形参中的 *args / **kwargs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-实参中的-args-kwargs"><span class="nav-number">2.</span> <span class="nav-text">2. 实参中的 *args / **kwargs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-应用"><span class="nav-number">3.</span> <span class="nav-text">3. 应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-参考"><span class="nav-number">4.</span> <span class="nav-text">4. 参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-type-定义"><span class="nav-number">1.</span> <span class="nav-text">1. type 定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-type-应用"><span class="nav-number">2.</span> <span class="nav-text">2. type 应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-小结"><span class="nav-number">3.</span> <span class="nav-text">3. 小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-参考"><span class="nav-number">4.</span> <span class="nav-text">4. 参考</span></a></li></ol></div>
             
 
           </div>
