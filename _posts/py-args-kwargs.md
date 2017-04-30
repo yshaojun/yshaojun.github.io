@@ -1,11 +1,11 @@
 ---
-title: Python 中的 *args / **kwargs 小结
+title: Python 中的 *args / **kwargs
 date: 2017/4/16 13:13:39
 tags: Python
 ---
 
 - 文档创建：2017/4/16 13:13:39
-- 最后更新：2017/4/16 14:02:50
+- 最后更新：2017/4/30 19:02:23
 
 Python 代码中经常出现 `*args` / `**kwargs` 的函数，这里对它们的用法做个小结。
 
