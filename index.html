@@ -51,6 +51,16 @@
       main > div {
         margin: 32px 16px 16px;
         overflow: hidden;
+        display: none;
+      }
+
+      main > div.active {
+        display: block;
+      }
+
+      main .home p {
+        text-align: left;
+        line-height: 2;
       }
 
       footer {
@@ -69,15 +79,30 @@
   <body>
     <nav>
       <a href="/" class="active">首页</a>
-      <a href="/post/">经历</a>
-      <a href="/tags/">文章</a>
-      <a href="/about/">翻译</a>
-      <a href="/index.xml">联系</a>
+      <a href="#experience">经历</a>
+      <a href="#article">文章</a>
+      <a href="#translation">翻译</a>
+      <a href="#contact">联系</a>
     </nav>
     <main>
-      <div class="page-home">
+      <div class="home active">
         <h1>Hi, 我叫杨少军</h1>
-        <p>我是一名前端工程师...</p>
+        <p>是一名前端工程师，目前就职于一家互联网公司，喜欢计算机、特别是前端领域的所有事，相信技术改变生活。</p>
+        <p>爱好跑步、游泳和代码，偶尔刷剧、看书。</p>
+        <p>这个站点主要整理散落其他平台的文章和思考，三省吾身，更好前行。</p>
+        <p>心有所向，未来可期！</p>
+      </div>
+      <div class="experience">
+        经历
+      </div>
+      <div class="article">
+        文章
+      </div>
+      <div class="translation">
+        翻译
+      </div>
+      <div class="contact">
+        联系
       </div>
     </main>
     <footer>
@@ -89,6 +114,7 @@
 section.point2.add(mod,0);section.point3.add(mod,0)}else{section.point1.subtract(mod,0);section.point2.subtract(mod,0);section.point3.subtract(mod,0)}section.point1.add(0,mod);section.point2.add(0,mod);section.point3.add(0,mod)}}else{section.delay-=0.5}var s=this._options.colorSaturation,l=this._options.colorBrightness,c="hsla("+section.color+", "+s+", "+l+", "+section.alpha+" )";this._context.save();if(this._options.parallaxAmount!==0){this._context.translate(0,this._scroll*this._options.parallaxAmount)}this._context.beginPath();this._context.moveTo(section.point1.x,section.point1.y);this._context.lineTo(section.point2.x,section.point2.y);this._context.lineTo(section.point3.x,section.point3.y);this._context.fillStyle=c;this._context.fill();if(this._options.strokeSize>0){this._context.lineWidth=this._options.strokeSize;this._context.strokeStyle=c;this._context.lineCap="round";this._context.stroke()}this._context.restore()}return false},_onDraw:function(){for(var i=0,t=this._ribbons.length;i<t;++i){if(!this._ribbons[i]){this._ribbons.splice(i,1)}}this._context.clearRect(0,0,this._width,this._height);for(var a=0;a<this._ribbons.length;++a){var ribbon=this._ribbons[a],numSections=ribbon.length,numDone=0;for(var b=0;b<numSections;++b){if(this._drawRibbonSection(ribbon[b])){numDone++}}if(numDone>=numSections){this._ribbons[a]=null}}if(this._ribbons.length<this._options.ribbonCount){this.addRibbon()}},_onResize:function(e){var screen=screenInfo(e);this._width=screen.width;this._height=screen.height;if(this._canvas){this._canvas.width=this._width;this._canvas.height=this._height;if(this._context){this._context.globalAlpha=this._options.colorAlpha}}},_onScroll:function(e){var screen=screenInfo(e);this._scroll=screen.scrolly}};return Factory});
 
       ;(function() {
+        // 1. ribbons
         const ribbons = new Ribbons()
         const array = new Array(100).fill(1)
 
@@ -97,6 +123,31 @@ section.point2.add(mod,0);section.point3.add(mod,0)}else{section.point1.subtract
         document.addEventListener('click', () => {
           array.forEach(() => ribbons._onDraw())
         })
+
+        // 2. tabs
+        const nav = document.querySelector('nav')
+        const main = document.querySelector('main')
+
+        function initTab(tab) {
+          [...nav.children].forEach(child => {
+            child.className = child === tab ? 'active' : ''
+          })
+
+          ;[...main.children].forEach(child => {
+            child.className = child.className.replace(' active', '')
+
+            if (child.className === tab.hash.slice(1)) {
+              child.className = child.className + ' active'
+            }
+          })
+        }
+
+        if (location.hash) {
+          const tab = [...nav.children].find(a => a.hash === location.hash);
+          initTab(tab);
+        }
+
+        nav.addEventListener('click', e => initTab(e.target))
       })()
     </script>
   </body>
