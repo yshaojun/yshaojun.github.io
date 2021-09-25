@@ -58,9 +58,45 @@
         display: block;
       }
 
+      main p {
+        line-height: 2;
+      }
+
       main .home p {
         text-align: left;
-        line-height: 2;
+      }
+
+      main .experience ul {
+        display: inline-block;
+        list-style: none;
+        border-left: 1px solid #6c757d;
+        text-align: left;
+        padding: 16px 0 16px 36px;
+        margin-left: 4px;
+      }
+
+      main .experience li {
+        margin-bottom: 16px;
+        position: relative;
+      }
+
+      main .experience li::before {
+        content: '';
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #6c757d;
+        position: absolute;
+        top: 8px;
+        left: -40px;
+        cursor: pointer;
+      }
+
+      main .experience span {
+        display: inline-block;
+        min-width: 150px;
+        line-height: 1.5;
       }
 
       footer {
@@ -93,7 +129,12 @@
         <p>心有所向，未来可期！</p>
       </div>
       <div class="experience">
-        经历
+        <ul>
+          <li><span>2021.3 - 至今</span><span>字节跳动</span><span>前端开发工程师</span></li>
+          <li><span>2018.2 - 2021.3</span><span>滴滴出行</span><span>高级软件开发工程师（前端）</span></li>
+          <li><span>2015.7 - 2018.1</span><span>奇虎360</span><span>测试开发工程师</span></li>
+          <li><span>2011.8 - 2015.7</span><span>西安电子科技大学</span><span>计算机科学与技术</span></li>
+        </ul>
       </div>
       <div class="article">
         文章
@@ -102,7 +143,8 @@
         翻译
       </div>
       <div class="contact">
-        联系
+        <p>你可以通过下面的邮件联系我，欢迎交流 ~</p>
+        <a href="mailto:shaojun.y@icloud.com">shaojun.y@icloud.com</a>
       </div>
     </main>
     <footer>
