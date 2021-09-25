@@ -43,7 +43,7 @@
       }
 
       main {
-        height: calc(100% - 96px);
+        min-height: calc(100% - 96px);
         overflow: hidden;
       }
 
@@ -81,7 +81,7 @@
         top: 0;
       }
 
-      main .experience ul {
+      main ul {
         display: inline-block;
         list-style: none;
         border-left: 1px solid #6c757d;
@@ -90,7 +90,7 @@
         margin-left: 4px;
       }
 
-      main .experience li {
+      main li {
         margin-bottom: 16px;
         position: relative;
       }
@@ -112,6 +112,12 @@
         display: inline-block;
         min-width: 150px;
         line-height: 1.5;
+      }
+
+      main .article ul,
+      main .translation ul {
+        list-style: circle;
+        border-left: none;
       }
 
       footer {
@@ -152,10 +158,35 @@
         </ul>
       </div>
       <div class="article">
-        文章
+        <p>这里记录我的所学所思，主要是偏前端技术，后面也在想拓宽涉猎</p>
+        <ul>
+          <li><a href="https://juejin.cn/post/6844903881500016654">前端演进思考</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/4">盘点前端领域的六个方向</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/2">学习 JavaScript 的三大门槛</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/3">学习 CSS 的两大要点</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/15">小程序的一些事</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/13">从 alicloud-console-os 看微前端</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/5">为什么我觉得 MobX 不适合 React</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/10">初探 WebAssembly</a></li>
+          <li><a href="https://github.com/yshaojun/blog/issues/14">彻底弄懂 Mixed content</a></li>
+          <li><a href="https://zhuanlan.zhihu.com/p/276574914">终于读懂 Hooks</a></li>
+          <li><a href="https://zhuanlan.zhihu.com/p/350394838">如何理解Hooks里不能异步获取State</a></li>
+          <li><a href="https://juejin.cn/post/7000339282942492709">如何设计一个插件系统</a></li>
+          <li><a href="https://zhuanlan.zhihu.com/p/338287250">如何优雅的写动态加载</a></li>
+          <li><a href="https://juejin.cn/post/6844903862264938503">VSCode 插件开发</a></li>
+          <li><a href="https://zhuanlan.zhihu.com/p/378058085">盘点拉胯代码的三个特征</a></li>
+          <li><a href="https://zhuanlan.zhihu.com/p/270661450">软件工程师的三个层次</a></li>
+          <li><a href="https://book.douban.com/review/13814586/">信息传读后感</a></li>
+        </ul>
       </div>
       <div class="translation">
-        翻译
+        <p>技术文档翻译，既练英语，也学技术</p>
+        <ul>
+          <li><a href="https://juejin.cn/post/7008543826432229390">翻译：为什么我不使用类</a></li>
+          <li><a href="https://juejin.cn/post/7007790115732848670">翻译：use-subscription</a></li>
+          <li><a href="https://juejin.cn/post/7006868198033211429">翻译：0147-use-mutable-source.md</a></li>
+          <li><a href="https://juejin.cn/post/7004121754134118436">翻译：基于函数的组件 API（扩展讨论）#55</a></li>
+        </ul>
       </div>
       <div class="contact">
         <p>你可以通过下面的邮件联系我，欢迎交流 ~</p>
