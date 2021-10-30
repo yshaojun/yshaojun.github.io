@@ -58,6 +58,15 @@
         display: block;
       }
 
+      main #content {
+        opacity: 1;
+        transition: 2s;
+      }
+
+      main #content.hide {
+        opacity: 0;
+      }
+
       main p {
         line-height: 2;
       }
@@ -67,7 +76,7 @@
         position: relative;
       }
 
-      main .home p.highlight::after {
+      main .home .highlight::after {
         content: '';
         width: 152px;
         position: absolute;
@@ -78,8 +87,9 @@
         background-color: rgba(79, 192, 141, 0.5);
       }
 
-      main .home p.highlight:hover::after {
+      main .home .highlight:hover::after {
         top: 0;
+        background-color: rgba(79, 192, 141, 0.3);
       }
 
       main ul {
@@ -151,11 +161,13 @@
     </nav>
     <main>
       <div class="home active">
-        <h1>Hi, 我叫杨少军</h1>
-        <p>是一名前端工程师，目前就职于一家互联网公司，喜欢计算机、特别是前端领域的所有事，相信技术改变生活。</p>
-        <p>爱好跑步、游泳和代码，偶尔刷剧、看书。</p>
-        <p>这个站点主要整理散落其他平台的文章和思考，三省吾身，更好前行。</p>
-        <p class="highlight">心有所向，未来可期！</p>
+        <h1 id="title">Hi, 我叫杨少军</h1>
+        <div id="content" class="hide">
+          <p>是一名前端工程师，目前就职于一家互联网公司，喜欢计算机、特别是前端领域的所有事，相信技术改变生活。</p>
+          <p>爱好跑步、游泳和代码，偶尔刷剧、看书。</p>
+          <p>这个站点主要整理散落其他平台的文章和思考，三省吾身，更好前行。</p>
+          <p><span class="highlight">心有所向，未来可期！</span></p>
+        </div>
       </div>
       <div class="experience">
         <ul>
@@ -214,7 +226,7 @@
 section.point2.add(mod,0);section.point3.add(mod,0)}else{section.point1.subtract(mod,0);section.point2.subtract(mod,0);section.point3.subtract(mod,0)}section.point1.add(0,mod);section.point2.add(0,mod);section.point3.add(0,mod)}}else{section.delay-=0.5}var s=this._options.colorSaturation,l=this._options.colorBrightness,c="hsla("+section.color+", "+s+", "+l+", "+section.alpha+" )";this._context.save();if(this._options.parallaxAmount!==0){this._context.translate(0,this._scroll*this._options.parallaxAmount)}this._context.beginPath();this._context.moveTo(section.point1.x,section.point1.y);this._context.lineTo(section.point2.x,section.point2.y);this._context.lineTo(section.point3.x,section.point3.y);this._context.fillStyle=c;this._context.fill();if(this._options.strokeSize>0){this._context.lineWidth=this._options.strokeSize;this._context.strokeStyle=c;this._context.lineCap="round";this._context.stroke()}this._context.restore()}return false},_onDraw:function(){for(var i=0,t=this._ribbons.length;i<t;++i){if(!this._ribbons[i]){this._ribbons.splice(i,1)}}this._context.clearRect(0,0,this._width,this._height);for(var a=0;a<this._ribbons.length;++a){var ribbon=this._ribbons[a],numSections=ribbon.length,numDone=0;for(var b=0;b<numSections;++b){if(this._drawRibbonSection(ribbon[b])){numDone++}}if(numDone>=numSections){this._ribbons[a]=null}}if(this._ribbons.length<this._options.ribbonCount){this.addRibbon()}},_onResize:function(e){var screen=screenInfo(e);this._width=screen.width;this._height=screen.height;if(this._canvas){this._canvas.width=this._width;this._canvas.height=this._height;if(this._context){this._context.globalAlpha=this._options.colorAlpha}}},_onScroll:function(e){var screen=screenInfo(e);this._scroll=screen.scrolly}};return Factory});
 
       window.onload = function() {
-        // 1. ribbons
+        /** ribbons */
         const ribbons = new Ribbons()
         const array = new Array(100).fill(1)
 
@@ -224,7 +236,23 @@ section.point2.add(mod,0);section.point3.add(mod,0)}else{section.point1.subtract
           array.forEach(() => ribbons._onDraw())
         })
 
-        // 2. tabs
+        /** tap effect */
+        async function tapWord(id) {
+          const elem = document.getElementById(id)
+          const words = elem.innerText.split('')
+
+          let text = elem.innerText = ''
+          for (const word of words) {
+            elem.innerText = (text += word)
+            await new Promise(r => setTimeout(r, 150))
+          }
+        }
+
+        tapWord('title').then(() => {
+          document.getElementById('content').className = ''
+        })
+
+        /** tabs */
         const nav = document.querySelector('nav')
         const main = document.querySelector('main')
 
