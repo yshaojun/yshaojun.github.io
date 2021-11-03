@@ -52,11 +52,17 @@
     const txt = document.getElementById('text')
 
     document.getElementById('unescape').addEventListener('click', () => {
-      txt.value = unescape(uni.value.replace(/\\/g, '%'))
+      txt.value = unescape(uni.value.replace(/\\u/g, '%u'))
     })
 
     document.getElementById('escape').addEventListener('click', () => {
-      uni.value = escape(txt.value).replace(/%/g, '\\').toLocaleLowerCase()
+      let result = ''
+      txt.value.split('').forEach(t => {
+        const tt = escape(t)
+        result += (tt.length === 3 ? '\\u00' : '\\') + tt.slice(1)
+      })
+  
+      uni.value = result.toLocaleLowerCase()
     })
 
     document.getElementById('clean').addEventListener('click', () => {
