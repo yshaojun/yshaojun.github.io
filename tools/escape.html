@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode-中文互转</title>
+    <style>
+      h4 {
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      textarea {
+        width: 450px;
+        height: 250px;
+        padding: 8px 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+
+      button {
+        display: block;
+        width: 40px;
+        margin: 16px;
+        background-color: #fff;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+  <h4>Unicode-中文互转</h4>
+  <div class="container">
+    <textarea id='unicode' placeholder="输入 Unicode..."></textarea>
+    <div class="operate">
+      <button id="unescape">&gt;&gt;</button>
+      <button id="escape">&lt;&lt;</button>
+      <button id="clean">清空</button>
+    </div>
+    <textarea id='text' placeholder="输入中文..."></textarea>
+  </div>
+  <script>
+    const uni = document.getElementById('unicode')
+    const txt = document.getElementById('text')
+
+    document.getElementById('unescape').addEventListener('click', () => {
+      txt.value = unescape(uni.value.replace(/\\/g, '%'))
+    })
+
+    document.getElementById('escape').addEventListener('click', () => {
+      uni.value = escape(txt.value).replace(/%/g, '\\').toLocaleLowerCase()
+    })
+
+    document.getElementById('clean').addEventListener('click', () => {
+      uni.value = txt.value = ''
+    })
+  </script>
+</body>
+</html>
