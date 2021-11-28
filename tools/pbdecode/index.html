@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protobuf 解码</title>
+    <style>
+      h4 {
+        text-align: center;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      textarea {
+        width: 400px;
+        height: 250px;
+        padding: 8px 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        flex-shrink: 1;
+      }
+
+      @media (max-width: 500px) {
+        textarea {
+          width: 110px;
+        }
+      }
+
+      button {
+        display: block;
+        width: 40px;
+        margin: 16px;
+        background-color: #fff;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+  <h4>Protobuf 解码</h4>
+  <div class="container">
+    <textarea id='encoded' placeholder="输入二进制或 base64..."></textarea>
+    <div class="operate">
+      <button id="decode">解码</button>
+      <button id="clean">清空</button>
+    </div>
+    <textarea id='decoded' placeholder="解码结果..."></textarea>
+  </div>
+
+  <script src="pbdecode/protobuf.min.js"></script>
+  <script src="pbdecode/pbdecode.js"></script>
+
+  <script>
+    const enc = document.getElementById('encoded')
+    const dec = document.getElementById('decoded')
+
+    function binaryToBuffer(binStr) {
+      const numbers = binStr.trim().toLowerCase().split(' ')
+      const buffer = new Uint8Array(numbers.length)
+
+      function toNum(num) {
+        const [a, b] = num.split('')
+
+        const result = (
+          (a.charCodeAt(0) - (/[0-9]/.test(a) ? 48 : 97)) * 16 +
+          (b.charCodeAt(0) - (/[0-9]/.test(b) ? 48 : 87))
+        )
+        return result
+      }
+
+      numbers.forEach((num, idx) => buffer[idx] = toNum(num))
+      return buffer
+    }
+
+    function base64ToBuffer(b64Str) {
+      // XXX:
+      return new Uint8Array();
+    }
+
+    function guessType(str) {
+      // XXX:
+      return 'binary'
+    }
+
+    // example
+    enc.value = '0a 03 78 78 78 12 03 78 78 78 12 03 79 79 79 12 03 7a 7a 7a'
+
+    document.getElementById('decode').addEventListener('click', () => {
+      if (!enc.value.trim()) return
+
+      let decoded = ''
+      switch (guessType(enc.value)) {
+        case 'binary':
+          decoded = window.pbDecode(binaryToBuffer(enc.value))
+          break
+        default:
+          break
+      }
+
+      dec.value = JSON.stringify(decoded, '', 2)
+    })
+
+    document.getElementById('clean').addEventListener('click', () => {
+      enc.value = dec.value = ''
+    })
+  </script>
+</body>
+</html>
