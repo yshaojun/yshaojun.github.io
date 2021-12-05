@@ -46,7 +46,7 @@
 <body>
   <h4>Protobuf 解码</h4>
   <div class="container">
-    <textarea id='encoded' placeholder="输入二进制或 base64..."></textarea>
+    <textarea id='encoded' placeholder="复制浏览器开发者工具 Network 下的 Response"></textarea>
     <div class="operate">
       <button id="decode">解码</button>
       <button id="clean">清空</button>
@@ -62,35 +62,24 @@
     const dec = document.getElementById('decoded')
 
     function binaryToBuffer(binStr) {
-      const numbers = binStr.trim().toLowerCase().split(' ')
-      const buffer = new Uint8Array(numbers.length)
-
-      function toNum(num) {
-        const [a, b] = num.split('')
-
-        const result = (
-          (a.charCodeAt(0) - (/[0-9]/.test(a) ? 48 : 97)) * 16 +
-          (b.charCodeAt(0) - (/[0-9]/.test(b) ? 48 : 87))
-        )
-        return result
-      }
-
-      numbers.forEach((num, idx) => buffer[idx] = toNum(num))
+      const buffer = new Uint8Array(binStr.length)
+      binStr.split('').forEach((c, idx) => buffer[idx] = c.charCodeAt(0))
       return buffer
     }
 
     function base64ToBuffer(b64Str) {
-      // XXX:
-      return new Uint8Array();
+      return binaryToBuffer(atob(b64Str))
     }
 
     function guessType(str) {
-      // XXX:
-      return 'binary'
+      if (/[^a-zA-Z0-9+/=]/.test(str)) return 'binary'
+      return 'base64'
     }
 
     // example
-    enc.value = '0a 03 78 78 78 12 03 78 78 78 12 03 79 79 79 12 03 7a 7a 7a'
+    // enc.value = 'CgN4eHgSA3h4eBIDeXl5EgN6eno='
+    enc.value = `
+xxxxxxyyyzzz`
 
     document.getElementById('decode').addEventListener('click', () => {
       if (!enc.value.trim()) return
@@ -98,8 +87,10 @@
       let decoded = ''
       switch (guessType(enc.value)) {
         case 'binary':
-          decoded = window.pbDecode(binaryToBuffer(enc.value))
+          decoded = pbDecode(binaryToBuffer(enc.value))
           break
+        case 'base64':
+          decoded = pbDecode(base64ToBuffer(enc.value))
         default:
           break
       }
