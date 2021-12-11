@@ -43,7 +43,7 @@ function pbDecode(buffer, stringMode = 'auto') {
       case 2:
         const bytes = reader.bytes()
         try {
-          const innerMessage = getData(bytes, stringMode)
+          const innerMessage = pbDecode(bytes, stringMode)
           addTo(out, [id, innerMessage])
         } catch (e) {
           if (stringMode === 'binary') {
