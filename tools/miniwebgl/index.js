@@ -44,13 +44,14 @@ function main() {
 
   // 4. draw
   //
-  const positionAttributeLocation = gl.getAttribLocation(program, "p_position")
-  const positionBuffer = gl.createBuffer()
   const positions = [
     0, 0,
     0, 0.8,
     0.5, 0,
   ]
+
+  const positionAttributeLocation = gl.getAttribLocation(program, "p_position")
+  const positionBuffer = gl.createBuffer()
 
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
