@@ -69,9 +69,9 @@
 </head>
 <body>
   <div class="container">
-    <img src="https://s1.ax1x.com/2022/05/21/OXMOLF.png">
+    <img id="dog" src="https://s1.ax1x.com/2022/05/21/OXMOLF.png">
     <div class="words">
-      <p id="title">亲爱的小方同学</p>
+      <p id="title" style="opacity: 0">亲爱的小方同学</p>
       <p id="content" class="hide"><span>520</span> 快乐呀<img class="heart" src="heart.gif"></p>
     </div>
     <iframe id="music" class="hide" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=497463179&auto=1&height=66"></iframe>
@@ -87,14 +87,19 @@
         elem.innerText = (text += word)
         await new Promise(r => setTimeout(r, 150))
       }
+
+      await new Promise(r => setTimeout(r, 750))
     }
 
-    tapWord('title').then(() => {
-      document.getElementById('content').className = ''
-      setTimeout(() => {
-        document.getElementById('music').className = '';
-      }, 1500)
-    })
+    document.getElementById('dog').addEventListener('load', () => {
+      document.getElementById('title').style.opacity = 1;
+      tapWord('title').then(() => {
+        document.getElementById('content').className = ''
+        setTimeout(() => {
+          document.getElementById('music').className = ''
+        }, 1500)
+      })
+    });
   </script>
 </body>
 </html>
