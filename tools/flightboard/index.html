@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flight Board</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/babel-standalone/7.21.4/babel.min.js"></script>
+    <style>
+      html, body, #root {
+        font-family: "PingFang SC","Helvetica Neue",Helvetica,Tahoma,"Microsoft Yahei",sans-serif;
+        min-width: 1280px;
+        height: 100%;
+        overflow: auto;
+        margin: 0;
+      }
+
+      .my-app {
+        height: 100%;
+        padding: 0 12px;
+        background-color: #070608;
+        color: #fff;
+      }
+
+      .board {
+        display: inline-block;
+        width: calc(33.3% - 16px);
+        margin: 0 8px;
+        opacity: 1;
+      }
+
+      .board.hidden {
+        opacity: 0;
+        transition: .3s;
+      }
+
+      .board p {
+        font-weight: 500;
+        color: #d3ae17;
+        text-align: center;
+        text-decoration: underline;
+      }
+
+      .board table {
+        width: 100%;
+        border-collapse: collapse;
+        border-top: 1px solid #920805;
+        border-bottom: 1px solid #920805;
+        cursor: pointer;
+      }
+      
+      .board th {
+        color: #ecca4a;
+        text-align: left;
+      }
+
+      .board tbody tr:nth-child(odd) td {
+        background-color: #68676f;
+      }
+
+      .board .footer {
+        padding: 4px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .detail {
+        position: fixed;
+        overflow: hidden;
+        background-color: #68676f;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+      }
+
+      .detail.show {
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        opacity: 1 !important;
+        transition: .3s;
+      }
+
+      .detail button {
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+
+      .detail .item > div {
+        margin: 12px 0;
+      }
+
+      .detail .item > div > span:first-child {
+        display: inline-block;
+        width: 100px;
+      }
+
+      .rolling-text {
+        max-width: 100px;
+        overflow: hidden;
+      }
+
+      .rolling-text div {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      .rolling-text div.rolling {
+        animation: rolling 10s linear infinite;
+      }
+
+      @keyframes rolling {
+        0% {
+          transform: translateX(10%);
+        }
+
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const locale = {
+        zh: {
+          'title': '国内到达航班动态(T2)',
+          'th.planed': '计划',
+          'th.flightNum': '航班号',
+          'th.before': '前站/经停',
+          'th.supposed': '预计',
+          'th.status': '状态',
+          'tb.status.arriving': '前方起飞',
+          'tb.status.delayedArriving': '延误 / 前方起飞',
+          'tb.status.arrived': '到达',
+          'tb.status.delayedArrived': '延误 / 到达',
+          'tf.tip': '本屏航班计划时间：',
+          'tf.page': '页：',
+        },
+        en: {
+          'title': 'Domestic Arrival Flight Updates(T2)',
+          'th.planed': 'STA',
+          'th.flightNum': 'Flight',
+          'th.before': 'From/Via',
+          'th.supposed': 'ETA',
+          'th.status': 'Status',
+          'tb.status.arriving': 'Arriving',
+          'tb.status.delayedArriving': 'Delayed / Arriving',
+          'tb.status.arrived': 'Arrived',
+          'tb.status.delayedArrived': 'Delayed / Arrived',
+          'tf.tip': 'Flight Schedule of This Screen: ',
+          'tf.page': 'Page: ',
+        }
+      };
+
+      const city = {
+        'Mianyang': '绵阳',
+        'Haikou': '海口',
+        'Xiamen': '厦门',
+        'Quanzhou': '泉州',
+        'Xining': '西宁',
+        'Shanghaihongqiao': '上海虹桥',
+      };
+
+      const col = {
+        timeRange: '15:00-16:40',
+        data: [
+          {sta: '15:00', flightNum: 'HU6031 HU6032 HU6033', before: 'Mianyang', status: 'DELAYED_ARRIVING'},
+          {sta: '15:13', flightNum: 'HU6031', before: 'Shanghaihongqiao', status: 'ARRIVING'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Xiamen', status: 'ARRIVING'},
+          {sta: '15:56', flightNum: 'HU6031 HU6035', before: 'Mianyang', status: 'DELAYED_ARRIVING'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Shanghaihongqiao', status: 'DELAYED_ARRIVING'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Quanzhou', status: 'ARRIVED'},
+          {sta: '15:58', flightNum: 'HU6031 HU6035 HU6037 HU6039', before: 'Shanghaihongqiao', status: 'ARRIVED'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Mianyang', status: 'ARRIVING'},
+          {sta: '15:02', flightNum: 'HU6031', before: 'Shanghaihongqiao', status: 'DELAYED_ARRIVED'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Mianyang', status: 'DELAYED_ARRIVED'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Xining', status: 'DELAYED_ARRIVING'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Mianyang', status: 'ARRIVING'},
+          {sta: '15:00', flightNum: 'HU6031', before: 'Shanghaihongqiao', status: 'ARRIVING'},
+        ],
+      };
+
+      const data = [
+        col,
+        {...col, timeRange: '16:45-17:40'},
+        {...col, timeRange: '17:45-19:00'},
+      ];
+
+      function getStatus(s) {
+        let text, color;
+        switch (s) {
+          case 'ARRIVING': {
+            text = 'tb.status.arriving';
+            color = '#fff';
+            break;
+          }
+          case 'DELAYED_ARRIVING': {
+            text = 'tb.status.delayedArriving';
+            color = '#a20c0a';
+            break;
+          }
+          case 'ARRIVED': {
+            text = 'tb.status.arrived';
+            color = '#1f80c5';
+            break;
+          }
+          case 'DELAYED_ARRIVED': {
+            text = 'tb.status.delayedArrived';
+            color = '#a20c0a';
+            break;
+          }
+          default:
+            break;
+        }
+        return { text, color };
+      }
+
+      function getCity(lang, c) {
+        return lang === 'en' ? c : city[c];
+      }
+
+      function Board({data, lang, hidden, onSelect}) {
+        const [pageNumber, setPageNumber] = React.useState(1);
+        const intervalRef = React.useRef(null);
+
+        React.useEffect(() => {
+          if (pageCount > 1) {
+            intervalRef.current = setInterval(
+              () => setPageNumber(p => p >= pageCount ? 1 : p + 1),
+              10000
+            );
+            return () => clearInterval(intervalRef.current);
+          }
+        }, []);
+
+
+        const pageCount = Math.ceil(data.data.length / 10);
+        const _locale = locale[lang];
+        const _data = data.data.slice((pageNumber - 1) * 10, pageNumber * 10);
+
+        return (
+          <div className={`board${hidden ? ' hidden': ''}`}>
+            <p>{_locale['title']}</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>{_locale['th.planed']}</th>
+                  <th>{_locale['th.flightNum']}</th>
+                  <th>{_locale['th.before']}</th>
+                  <th>{_locale['th.supposed']}</th>
+                  <th>{_locale['th.status']}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {_data.map((d, idx) => {
+                  const s = getStatus(d.status);
+                  return (
+                    <tr key={idx} onClick={e => onSelect(e, d)}>
+                      <td>{d.sta}</td>
+                      <td><RollingText text={d.flightNum}/></td>
+                      <td><RollingText text={getCity(lang, d.before)}/></td>
+                      <td>{d.sta}</td>
+                      <td><RollingText text={_locale[s.text]} color={s.color}/></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <div className="footer">
+              <span>{_locale['tf.tip']}{data.timeRange}</span>
+              <span>{_locale['tf.page']}{pageNumber}/{pageCount}</span>
+            </div>
+          </div>
+        );
+      }
+
+      function Detail({ lang, rect, item, onCancel}) {
+        const [visible, setVisible] = React.useState(false);
+
+        React.useEffect(() => {
+          setTimeout(() => setVisible(true), 100)
+        }, []);
+
+        const { x, y, width, height } = rect || {};
+        const { sta, flightNum, before, status } = item;
+        const s = getStatus(status);
+        const _locale = locale[lang];
+
+        return (
+          <div
+            className={`detail${visible ? ' show' : ''}`}
+            style={{top: y, left: x, width, height, opacity: 0}}
+          >
+            <button onClick={onCancel}>X</button>
+            <div className="item">
+              <div><span>{_locale['th.planed']}</span>{sta}</div>
+              <div><span>{_locale['th.flightNum']}</span>{flightNum}</div>
+              <div><span>{_locale['th.before']}</span>{getCity(lang, before)}</div>
+              <div><span>{_locale['th.supposed']}</span>{sta}</div>
+              <div>
+                <span>{_locale['th.status']}</span>
+                <span style={{color: s.color}}>{_locale[s.text]}</span>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function RollingText({text, color}) {
+        const pRef = React.useRef(null);
+        const sRef = React.useRef(null);
+        const [rolling, setRolling] = React.useState(false);
+
+        React.useEffect(() => {
+          setRolling(pRef.current.clientWidth < sRef.current.clientWidth);
+        }, [text]);
+
+        return (
+          <div ref={pRef} className="rolling-text">
+            <div ref={sRef} className={rolling ? 'rolling' : undefined} style={{color}}>
+              {text}
+            </div>
+          </div>
+        );
+      }
+
+      function MyApp() {
+        const [lang, setLang] = React.useState('zh');
+        const [item, setItem] = React.useState(null);
+        const [rect, setRect] = React.useState(null);
+        const intervalRef = React.useRef(null);
+
+        function handleSelect(e, item) {
+          setRect(e.target.parentNode.getBoundingClientRect());
+          setItem(item);
+        }
+
+        React.useEffect(() => {
+          intervalRef.current = setInterval(() => {
+            setLang(p => (p === 'zh' ? 'en' : 'zh'));
+          }, 5000);
+
+          return () => clearInterval(intervalRef.current);
+        }, []);
+
+        return (
+          <div className="my-app">
+            {data.map((d, idx) => (
+              <Board
+                key={idx}
+                lang={lang}
+                data={d}
+                hidden={!!item}
+                onSelect={handleSelect}
+              />
+            ))}
+
+            {!!item && (
+              <Detail
+                lang={lang}
+                rect={rect}
+                item={item}
+                onCancel={() => setItem(null)}
+              />
+            )}
+          </div>
+        );
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<MyApp />);
+    </script>
+  </body>
+</html>
