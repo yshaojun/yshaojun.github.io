@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unicode-中文互转</title>
+    <title>RGB2HEX</title>
     <style>
       h4 {
         text-align: center;
@@ -44,35 +44,60 @@
     </style>
 </head>
 <body>
-  <h4>Unicode-中文互转</h4>
+  <h4>RGB-HEX 互转</h4>
   <div class="container">
-    <textarea id='unicode' placeholder="输入 Unicode..."></textarea>
+    <textarea id='unicode' placeholder="输入 RGB..."></textarea>
     <div class="operate">
       <button id="unescape">&gt;&gt;</button>
       <button id="escape">&lt;&lt;</button>
       <button id="clean">清空</button>
     </div>
-    <textarea id='text' placeholder="输入中文..."></textarea>
+    <textarea id='text' placeholder="输入 HEX..."></textarea>
   </div>
   <script>
     const uni = document.getElementById('unicode')
     const txt = document.getElementById('text')
 
+    function toChar(n) {
+      if (n < 10) return String(n)
+      return String.fromCharCode(97 + n - 10)
+    }
+
+    function toHex(n, alpha) {
+      if (alpha) n = n * 255
+      const [a, b] = [Math.floor(n / 16), Math.floor(n % 16)]
+      return toChar(a) + toChar(b)
+    }
+
+    function toDec(n, alpha = false) {
+      const [x, y] = n.toLowerCase().split('').map(it => {
+        if (/[0-9]/.test(it)) return Number(it)
+        return it.charCodeAt(0) - 87
+      })
+
+      const ret = x * 16 + y
+      if (!alpha) return String(ret)
+      return (ret / 255).toFixed(ret === 0 || ret === 255 ? 0 : 2)
+    }
+
     document.getElementById('unescape').addEventListener('click', () => {
-      txt.value = unescape(uni.value.replace(/\\u/g, '%u'))
+      const m = uni.value.match(/rgba?\((.*)\)/i)
+      if (!m) return
+
+      const rgb = m[1].split(',').map(it => Number(it.trim()))
+      txt.value = '#' + rgb.map((it, idx) => toHex(it, idx === 3)).join('')
     })
 
     document.getElementById('escape').addEventListener('click', () => {
-      let result = ''
-      txt.value.split('').forEach(t => {
-        const tt = escape(t)
+      let t = txt.value.replace('#', '')
+      if (t.length === 3) {
+        const [r, g, b] = t.split('')
+        t = r + r + g + g + b + b
+      }
 
-        if (tt.startsWith('%u')) result += '\\' + tt.slice(1)
-        else if (tt.startsWith('%')) result += '\\u00' + tt.slice(1)
-        else result += tt
-      })
-  
-      uni.value = result.toLocaleLowerCase()
+      const [r, g, b] = [toDec(t.slice(0, 2)), toDec(t.slice(2, 4)), toDec(t.slice(4, 6))]
+      const a = t.length === 8 ? toDec(t.slice(6, 8), true) : false
+      uni.value = a ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
     })
 
     document.getElementById('clean').addEventListener('click', () => {
