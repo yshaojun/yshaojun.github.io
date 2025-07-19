@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS 颜色转换工具</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    header {
+      height: 60px;
+      line-height: 60px;
+      color: #fff;
+      background-color: #0d6efd;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: 24px auto;
+    }
+
+    .left,
+    .right {
+      display: inline-block;
+      width: 50%;
+      vertical-align: top;
+    }
+
+    .left {
+      text-align: center;
+    }
+
+    input {
+      height: 40px;
+      width: 300px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid #aaa
+    }
+
+    .color-square {
+      width: 64px;
+      height: 64px;
+      margin: 16px auto 12px;
+      border-radius: 8px;
+      background-color: #eee;
+    }
+
+    .card {
+      display: inline-block;
+      vertical-align: top;
+      width: 220px;
+      min-height: 100px;
+      padding: 10px 16px;
+      margin: 0 20px 20px 0;
+      background-color: #eee;
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .title {
+      text-align: center;
+      font-weight: bold;
+      color: #0d6efd;
+      margin-bottom: 16px;
+    }
+
+    .icon {
+      display: inline-block;
+      vertical-align: middle;
+      width: 13px;
+      height: 13px;
+      border-radius: 4px;
+    }
+
+    .icon-copy {
+      cursor: pointer;
+      vertical-align: middle;
+    }
+
+    .icon-copy svg {
+      width: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <header>CSS 颜色转换工具</header>
+    <div class="container">
+      <div class="left">
+        <input placeholder="输入任意格式颜色，例如：#ddd" autofocus v-model="source">
+        <div>
+          <div class="color-square" :style="{'background-color': target.length > 0 ? target[4].value1 : undefined}">
+          </div>
+          {{ target.length > 0 ? target[4].value1 : undefined }}
+        </div>
+      </div>
+      <div class="right">
+        <div class="card" v-for="t in target">
+          <div class="title">{{ t.name }}</div>
+          <div v-if="t.value1" class="content">
+            <i class="icon" :style="{'background-color': t.value1}"></i>
+            {{ t.value1 }}
+            <icon-copy :value="t.value1"></icon-copy>
+          </div>
+          <div v-if="t.value2">
+            <i class="icon" :style="{'background-color': t.value2}"></i>
+            {{ t.value2 }}
+            <icon-copy :value="t.value2"></icon-copy>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script type="text/x-template" id="icon-copy">
+    <span class="icon-copy" @click="handleCopy">
+      <svg v-if="copied" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+      </svg>
+    </span>
+  </script>
+  <script>
+    (function (window) {
+      /**
+       * 解析 CSS 颜色值并返回多种格式
+       * @param {string} colorStr - 颜色字符串
+       * @returns {{
+       *   rgb: string,
+       *   rgba: string,
+       *   hex: string,
+       *   hex3: string,
+       *   hex4: string,
+       *   hex8: string,
+       *   hexa: string,
+       *   hsl: string,
+       *   hsla: string,
+       *   r: number,
+       *   g: number,
+       *   b: number,
+       *   a: number
+       * } | null} 返回包含多种格式的颜色对象或null
+       */
+      window.parseColor = function parseColor(colorStr) {
+        if (!colorStr || typeof colorStr !== 'string') return null;
+
+        // 预处理：去除空格，转为小写
+        let str = colorStr.trim().toLowerCase();
+
+        // 处理透明色
+        if (str === 'transparent') {
+          return createColorObject(0, 0, 0, 0);
+        }
+
+        // 处理命名颜色
+        const namedColors = {
+          black: [0, 0, 0], white: [255, 255, 255],
+          red: [255, 0, 0], green: [0, 128, 0], blue: [0, 0, 255],
+          yellow: [255, 255, 0], cyan: [0, 255, 255], magenta: [255, 0, 255],
+          silver: [192, 192, 192], gray: [128, 128, 128], grey: [128, 128, 128],
+          maroon: [128, 0, 0], olive: [128, 128, 0], purple: [128, 0, 128],
+          teal: [0, 128, 128], navy: [0, 0, 128], orange: [255, 165, 0]
+        };
+
+        if (namedColors[str]) {
+          const [r, g, b] = namedColors[str];
+          return createColorObject(r, g, b, 1);
+        }
+
+        // HEX 格式处理 (#rgb, #rrggbb, #rrggbbaa)
+        const hexMatch = str.match(/^#?([a-f0-9]{3,8})$/);
+        if (hexMatch) {
+          let hex = hexMatch[1];
+          // 处理缩写格式 #rgb → #rrggbb
+          if (hex.length === 3 || hex.length === 4) {
+            hex = hex.split('').map(c => c + c).join('');
+          }
+
+          // 解析为 RGBA
+          const r = parseInt(hex.substr(0, 2), 16) || 0;
+          const g = parseInt(hex.substr(2, 2), 16) || 0;
+          const b = parseInt(hex.substr(4, 2), 16) || 0;
+          let a = 1;
+
+          // 处理 alpha 通道
+          if (hex.length >= 8) {
+            a = parseInt(hex.substr(6, 2), 16) / 255;
+          }
+
+          return createColorObject(r, g, b, a);
+        }
+
+        // RGB/RGBA 格式处理 (rgb(255,255,255), rgba(255,255,255,0.5))
+        const rgbMatch = str.match(/^rg?b?a?\(([^)]*)\)$/i);
+        if (rgbMatch) {
+          const parts = rgbMatch[1].split(/[,/]\s*/).map(parseFloat);
+          if (parts.length >= 3) {
+            // 处理百分比值
+            const r = parseChannel(parts[0]);
+            const g = parseChannel(parts[1]);
+            const b = parseChannel(parts[2]);
+            const a = parts.length >= 4 ? parseAlpha(parts[3]) : 1;
+
+            return createColorObject(r, g, b, a);
+          }
+        }
+
+        // HSL/HSLA 格式处理 (hsl(120,100%,50%), hsla(120,100%,50%,0.5))
+        const hslMatch = str.match(/^hs?l?a?\(([^)]*)\)$/i);
+        if (hslMatch) {
+          const parts = hslMatch[1].split(/[,/]\s*/).map(s => s.trim());
+          if (parts.length >= 3) {
+            const h = parseFloat(parts[0]);
+            const s = parsePercent(parts[1]);
+            const l = parsePercent(parts[2]);
+            const a = parts.length >= 4 ? parseAlpha(parts[3]) : 1;
+
+            // 转换 HSL 到 RGB
+            const { r, g, b } = hslToRgb(h, s, l);
+            return createColorObject(r, g, b, a);
+          }
+        }
+
+        // 处理 3-6 位十六进制不带 # 的情况 (fff, ffffff)
+        if (/^[a-f0-9]{3,6}$/i.test(str)) {
+          return parseColor(`#${str}`);
+        }
+
+        // 处理常见错误格式 (如 gb(255,255,255) → rgb(255,255,255))
+        const typoMatch = str.match(/^([a-z]{2,3})\(([^)]*)\)$/);
+        if (typoMatch && ['gb', 'rb', 'rg', 'hsl', 'hsla'].includes(typoMatch[1])) {
+          return parseColor(str.replace(typoMatch[1], typoMatch[1] === 'gb' ? 'rgb' : typoMatch[1]));
+        }
+
+        // 解析失败
+        return null;
+      }
+
+      // 创建包含多种格式的颜色对象
+      function createColorObject(r, g, b, a) {
+        // 确保值在正确范围内
+        r = Math.max(0, Math.min(255, Math.round(r)));
+        g = Math.max(0, Math.min(255, Math.round(g)));
+        b = Math.max(0, Math.min(255, Math.round(b)));
+        a = Math.max(0, Math.min(1, a));
+
+        // 转换为 HSL
+        const { h, s, l } = rgbToHsl(r, g, b);
+
+        // 生成各种格式
+        const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+        const hexa = `#${toHex(r)}${toHex(g)}${toHex(b)}${toHex(Math.round(a * 255))}`;
+
+        return {
+          rgb: `rgb(${r}, ${g}, ${b})`,
+          rgba: `rgba(${r}, ${g}, ${b}, ${a})`,
+          hex: hex,
+          hex3: hex.length === 7 ? (hex[1] === hex[2] && hex[3] === hex[4] && hex[5] === hex[6] ? `#${hex[1]}${hex[3]}${hex[5]}` : '') : hex,
+          hex4: hexa.length === 9 ? (hex[1] === hex[2] && hex[3] === hex[4] && hex[5] === hex[6] && hex[7] === hex[8] ? `#${hexa[1]}${hexa[3]}${hexa[5]}${hexa[7]}` : '') : hexa,
+          hex8: hexa,
+          hexa: hexa,
+          hsl: `hsl(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`,
+          hsla: `hsla(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%, ${a})`,
+          r: r,
+          g: g,
+          b: b,
+          a: a
+        };
+      }
+
+      // RGB 转 HSL
+      function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+
+        if (max === min) {
+          h = s = 0; // achromatic
+        } else {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+          h /= 6;
+        }
+
+        return { h: h * 360, s, l };
+      }
+
+      // 辅助函数：转换为两位十六进制
+      function toHex(num) {
+        const hex = num.toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      }
+
+      // 辅助函数：解析 RGB 通道值
+      function parseChannel(value) {
+        if (typeof value === 'string' && value.endsWith('%')) {
+          return Math.round(parseFloat(value) * 2.55);
+        }
+        return Math.min(255, Math.max(0, Math.round(parseFloat(value))));
+      }
+
+      // 辅助函数：解析 Alpha 通道值
+      function parseAlpha(value) {
+        if (typeof value === 'string' && value.endsWith('%')) {
+          return parseFloat(value) / 100;
+        }
+        return Math.min(1, Math.max(0, parseFloat(value)));
+      }
+
+      // 辅助函数：解析百分比值
+      function parsePercent(value) {
+        if (typeof value === 'string' && value.endsWith('%')) {
+          return parseFloat(value) / 100;
+        }
+        return Math.min(1, Math.max(0, parseFloat(value)));
+      }
+
+      // 辅助函数：HSL 转 RGB
+      function hslToRgb(h, s, l) {
+        h = ((h % 360) + 360) % 360 / 360; // 规范化到 0-1
+        s = Math.max(0, Math.min(1, s));
+        l = Math.max(0, Math.min(1, l));
+
+        let r, g, b;
+
+        if (s === 0) {
+          r = g = b = l; // 灰度
+        } else {
+          const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+          };
+
+          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+          const p = 2 * l - q;
+
+          r = hue2rgb(p, q, h + 1 / 3);
+          g = hue2rgb(p, q, h);
+          b = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        return {
+          r: Math.round(r * 255),
+          g: Math.round(g * 255),
+          b: Math.round(b * 255)
+        };
+      }
+    })(window);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.5.17/dist/vue.global.min.js"></script>
+  <script>
+    const { createApp, ref, watchEffect } = Vue
+
+    function setup() {
+      const source = ref('')
+      const target = ref([
+        { name: 'HEX' },
+        { name: 'RGB' },
+        { name: 'HSL' },
+        { name: 'HEXA' },
+        { name: 'RGBA' },
+        { name: 'HSLA' },
+      ])
+
+      let timeId = 0
+      watchEffect(() => {
+        clearTimeout(timeId)
+        timeId = (color => setTimeout(() => {
+          const d = parseColor(color)
+          console.log(77444, d)
+          if (d) {
+            target.value = [
+              { name: 'HEX', value1: d.hex3, value2: d.hex },
+              { name: 'RGB', value1: d.rgb },
+              { name: 'HSL', value1: d.hsl },
+              { name: 'HEXA', value1: d.hexa4, value2: d.hexa },
+              { name: 'RGBA', value1: d.rgba },
+              { name: 'HSLA', value1: d.hsla }
+            ]
+          }
+        }, 300))(source.value)
+      })
+
+      return { source, target }
+    }
+    const app = createApp({ setup })
+    app.component('IconCopy', {
+      template: '#icon-copy',
+      props: ['value'],
+
+      setup(props) {
+        const copied = ref(false)
+
+        function handleCopy() {
+          copied.value = true
+          navigator.clipboard.writeText(props.value)
+          setTimeout(() => copied.value = false, 1000)
+        }
+
+        return { copied, handleCopy }
+      }
+    })
+    app.mount('#app')
+  </script>
+</body>
+
+</html>
