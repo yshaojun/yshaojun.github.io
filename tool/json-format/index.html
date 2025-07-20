@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON 格式化工具</title>
+  <link rel="stylesheet" data-name="vs/editor/editor.main"
+    href="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/editor/editor.main.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body,
+    #app,
+    .container {
+      margin: 0;
+      height: 100%;
+    }
+
+    header {
+      height: 60px;
+      line-height: 60px;
+      color: #fff;
+      background-color: #0d6efd;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      height: calc(100% - 60px);
+    }
+
+    .left,
+    .right {
+      display: inline-block;
+      background-color: #fff;
+      width: 50%;
+      height: 100%;
+      padding: 20px;
+      vertical-align: top;
+      position: relative;
+    }
+
+    textarea,
+    .editor-container {
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+
+    #editor {
+      height: 100%;
+    }
+
+    .tool-bar {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 0 21px;
+    }
+
+    .icon {
+      cursor: pointer;
+      vertical-align: middle;
+      margin-left: 16px;
+    }
+
+    .icon svg {
+      width: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <header>JSON 格式化工具</header>
+    <div class="container">
+      <div class="left">
+        <textarea v-model="source" placeholder="请输入JSON字符串" autofocus></textarea>
+      </div>
+      <div class="right">
+        <div class="tool-bar">
+          <icon-fullscreen></icon-fullscreen>
+          <icon-copy :value="target"></icon-copy>
+        </div>
+        <div class="editor-container">
+          <div id="editor"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script type="text/x-template" id="icon-copy">
+    <span class="icon" @click="handleCopy">
+      <svg v-if="copied" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+      </svg>
+    </span>
+  </script>
+
+  <script type="text/x-template" id="icon-fullscreen">
+    <span class="icon" @click="handleFullscreen">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16">
+        <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5"/>
+      </svg>
+    </span>
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.5.17/dist/vue.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+  <script>
+    require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs' } });
+
+    require(['vs/editor/editor.main'], function () {
+      window._monacoEditor = monaco.editor.create(document.getElementById('editor'), {
+        placeholder: '请在左侧输入 JSON 字符串',
+        language: 'json',
+        contextmenu: false,
+        automaticLayout: true,
+        minimap: { enabled: false }
+      });
+    });
+  </script>
+
+  <script>
+    const { createApp, ref, computed, watchEffect } = Vue
+
+    function setup() {
+      const source = ref('')
+      const target = computed(() => {
+        try {
+          return JSON.stringify(JSON.parse(source.value), null, 2)
+        } catch (e) {
+          return source.value ? JSON.stringify({ Error: e.message }, null, 2) : ''
+        }
+      })
+
+      let timeId = 0
+      watchEffect(() => {
+        clearTimeout(timeId)
+        timeId = (jsonStr => setTimeout(() => {
+          window._monacoEditor.setValue(jsonStr)
+        }, 300))(target.value)
+      })
+
+      return { source, target }
+    }
+
+    const app = createApp({ setup })
+
+    app.component('IconCopy', {
+      template: '#icon-copy',
+      props: ['value'],
+
+      setup(props) {
+        const copied = ref(false)
+
+        function handleCopy() {
+          copied.value = true
+          navigator.clipboard.writeText(props.value)
+          setTimeout(() => copied.value = false, 1000)
+        }
+
+        return { copied, handleCopy }
+      }
+    })
+
+    app.component('IconFullscreen', {
+      template: '#icon-fullscreen',
+
+      setup() {
+        let fullscreen = false
+
+        function handleFullscreen() {
+          if (fullscreen) {
+            document.querySelector('.left').style.display = 'inline-block'
+            document.querySelector('.right').style.width = '50%'
+          } else {
+            document.querySelector('.left').style.display = 'none'
+            document.querySelector('.right').style.width = '100%'
+          }
+          fullscreen = !fullscreen
+        }
+
+        return { handleFullscreen }
+      }
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

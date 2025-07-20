@@ -392,7 +392,6 @@
         clearTimeout(timeId)
         timeId = (color => setTimeout(() => {
           const d = parseColor(color)
-          console.log(77444, d)
           if (d) {
             target.value = [
               { name: 'HEX', value1: d.hex3, value2: d.hex },
