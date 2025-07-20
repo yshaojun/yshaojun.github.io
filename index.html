@@ -1,281 +1,307 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="keywords" content="杨少军,yangshaojun,主页,frontend,fe,前端">
-    <meta name="description" content="杨少军的个人主页">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <title>杨少军 | YangShaojun</title>
-    <style>
-      html, body {
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #212529;
-        height: 100%;
-        margin: 0;
-      }
 
-      nav, main {
-        max-width: 700px;
-        margin: auto;
-        text-align: center;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="keywords" content="杨少军,yangshaojun,主页,frontend,fe,前端">
+  <meta name="description" content="杨少军的个人主页">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <title>杨少军 | YangShaojun</title>
+  <style>
+    html,
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #212529;
+      height: 100%;
+      margin: 0;
+    }
 
-      nav {
-        height: 40px;
-        box-sizing: border-box;
-        border-bottom: 1px solid #212529;
-      }
+    nav,
+    main {
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+    }
 
-      nav a {
-        display: inline-block;
-        padding: 8px 12px;
-        font-weight: bold;
-        color: #212529;
-        text-decoration: none;
-      }
+    nav {
+      height: 40px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #212529;
+    }
 
-      nav a.active {
-        background-color: #212529;
-        color: #fff;
-      }
+    nav a {
+      display: inline-block;
+      padding: 8px 12px;
+      font-weight: bold;
+      color: #212529;
+      text-decoration: none;
+    }
 
-      main {
-        min-height: calc(100% - 96px);
-        overflow: hidden;
-      }
+    nav a.active {
+      background-color: #212529;
+      color: #fff;
+    }
 
-      main > div {
-        margin: 0 16px;
-        overflow: hidden;
-        display: none;
-      }
+    main {
+      min-height: calc(100% - 96px);
+      overflow: hidden;
+    }
 
-      main > div.active {
-        display: block;
-      }
+    main>div {
+      margin: 0 16px;
+      overflow: hidden;
+      display: none;
+    }
 
-      main #content {
-        opacity: 1;
-        transition: 1s;
-      }
+    main>div.active {
+      display: block;
+    }
 
-      main #content.hide {
-        opacity: 0;
-      }
+    main #content {
+      opacity: 1;
+      transition: 1s;
+    }
 
-      main p {
-        line-height: 2;
-      }
+    main #content.hide {
+      opacity: 0;
+    }
 
-      main .home p {
-        text-align: left;
-        position: relative;
-      }
+    main p {
+      line-height: 2;
+    }
 
-      main .home .highlight::after {
-        content: '';
-        width: 152px;
-        position: absolute;
-        top: 30px;
-        bottom: 0;
-        left: 0;
-        transition: top 200ms cubic-bezier(0, 0.8, 0.13, 1);
-        background-color: rgba(79, 192, 141, 0.5);
-      }
+    main .home p {
+      text-align: left;
+      position: relative;
+    }
 
-      main .home .highlight:hover::after {
-        top: 0;
-        background-color: rgba(79, 192, 141, 0.3);
-      }
+    main .home .highlight::after {
+      content: '';
+      width: 152px;
+      position: absolute;
+      top: 30px;
+      bottom: 0;
+      left: 0;
+      transition: top 200ms cubic-bezier(0, 0.8, 0.13, 1);
+      background-color: rgba(79, 192, 141, 0.5);
+    }
 
-      main ul {
-        display: inline-block;
-        list-style: none;
-        border-left: 1px solid #6c757d;
-        text-align: left;
-        padding: 16px 0 0 36px;
-        margin-left: 4px;
-      }
+    main .home .highlight:hover::after {
+      top: 0;
+      background-color: rgba(79, 192, 141, 0.3);
+    }
 
-      main li {
-        margin-bottom: 16px;
-        position: relative;
-      }
+    main ul {
+      display: inline-block;
+      list-style: none;
+      border-left: 1px solid #6c757d;
+      text-align: left;
+      padding: 16px 0 0 36px;
+      margin-left: 4px;
+    }
 
-      main .experience li::before {
-        content: '';
-        display: block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #6c757d;
-        position: absolute;
-        top: 8px;
-        left: -40px;
-        cursor: pointer;
-      }
+    main li {
+      margin-bottom: 16px;
+      position: relative;
+    }
 
-      main .experience li:first-child {
-        font-weight: bold;
-      }
+    main .experience li::before {
+      content: '';
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #6c757d;
+      position: absolute;
+      top: 8px;
+      left: -40px;
+      cursor: pointer;
+    }
 
-      main .experience li:first-child:before {
-        background-color: #212529;
-      }
+    main .experience li:first-child {
+      font-weight: bold;
+    }
 
-      main .experience span {
-        display: inline-block;
-        min-width: 150px;
-        line-height: 1.5;
-      }
+    main .experience li:first-child:before {
+      background-color: #212529;
+    }
 
-      main .article ul,
-      main .translation ul,
-      main .learn ul,
-      main .tool ul {
-        list-style: circle;
-        border-left: none;
-      }
+    main .experience span {
+      display: inline-block;
+      min-width: 150px;
+      line-height: 1.5;
+    }
 
-      footer {
-        width: 100%;
-        padding-bottom: 16px;
-        text-align: center;
-      }
+    main .article ul,
+    main .translation ul,
+    main .learn ul,
+    main .tool ul {
+      list-style: circle;
+      border-left: none;
+    }
 
-      footer a {
-        color: #6c757d;
-      }
-    </style>
-  </head>
+    footer {
+      width: 100%;
+      padding-bottom: 16px;
+      text-align: center;
+    }
 
-  <body>
-    <nav>
-      <a href="/" class="active">首页</a>
-      <a href="#experience">经历</a>
-      <a href="#article">文章</a>
-      <a href="#translation">翻译</a>
-      <a href="#learn">学习</a>
-      <a href="#tool">工具</a>
-    </nav>
-    <main>
-      <div class="home active">
-        <h1 id="title">Hi, 我叫杨少军</h1>
-        <div id="content" class="hide">
-          <p>是一名前端工程师，目前就职于一家互联网公司，喜欢计算机、特别是前端领域的所有事，相信技术改变生活。</p>
-          <p>爱好跑步、游泳和代码，偶尔刷剧、看书。</p>
-          <p>这个站点主要整理散落其他平台的文章和思考，三省吾身，更好前行。</p>
-          <p><span class="highlight">心有所向，未来可期！</span></p>
-        </div>
+    footer a {
+      color: #6c757d;
+    }
+  </style>
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?740c0e0811416565a753fe43352ead04";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</head>
+
+<body>
+  <nav>
+    <a href="/" class="active">首页</a>
+    <a href="#experience">经历</a>
+    <a href="#article">文章</a>
+    <a href="#translation">翻译</a>
+    <a href="#learn">学习</a>
+    <a href="#tool">工具</a>
+  </nav>
+  <main>
+    <div class="home active">
+      <h1 id="title">Hi, 我叫杨少军</h1>
+      <div id="content" class="hide">
+        <p>是一名前端工程师，目前就职于一家互联网公司，喜欢计算机、特别是前端领域的所有事，相信技术改变生活。</p>
+        <p>爱好跑步、游泳和代码，偶尔刷剧、看书。</p>
+        <p>这个站点主要整理散落其他平台的文章和思考，三省吾身，更好前行。</p>
+        <p><span class="highlight">心有所向，未来可期！</span></p>
       </div>
-      <div class="experience">
-        <ul>
-          <li><span>2021.3 - 至今</span><span>字节跳动</span><span>前端开发工程师</span></li>
-          <li><span>2018.2 - 2021.3</span><span>滴滴出行</span><span>高级软件开发工程师（前端）</span></li>
-          <li><span>2015.7 - 2018.1</span><span>奇虎360</span><span>测试开发工程师</span></li>
-          <li><span>2011.8 - 2015.7</span><span>西安电子科技大学</span><span>计算机科学与技术</span></li>
-        </ul>
-      </div>
-      <div class="article">
-        <ul>
-          <li><a href="https://juejin.cn/post/6844903881500016654">前端演进思考</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/4">盘点前端领域的六个方向</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/2">学习 JavaScript 的三大门槛</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/3">学习 CSS 的两大要点</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/15">小程序的一些事</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/13">从 alicloud-console-os 看微前端</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/5">为什么我觉得 MobX 不适合 React</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/10">初探 WebAssembly</a></li>
-          <li><a href="https://github.com/yshaojun/blog/issues/14">彻底弄懂 Mixed content</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/276574914">终于读懂 Hooks</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/350394838">如何理解Hooks里不能异步获取State</a></li>
-          <li><a href="https://juejin.cn/post/7000339282942492709">如何设计一个插件系统</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/338287250">如何优雅的写动态加载</a></li>
-          <li><a href="https://juejin.cn/post/6844903862264938503">VSCode 插件开发</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/378058085">盘点拉胯代码的三个特征</a></li>
-          <li><a href="https://zhuanlan.zhihu.com/p/270661450">软件工程师的三个层次</a></li>
-          <li><a href="https://book.douban.com/review/13814586/">信息传读后感</a></li>
-        </ul>
-      </div>
-      <div class="translation">
-        <ul>
-          <li><a href="https://juejin.cn/post/7022181097614082084">翻译：最小能力原则</a></li>
-          <li><a href="https://juejin.cn/post/7017473055790202916">翻译：通过一个游戏学习 JavaScript</a></li>
-          <li><a href="https://juejin.cn/post/7013750002216337444">翻译：使用 Cypress 测试 HTML canvas</a></li>
-          <li><a href="https://juejin.cn/post/7012214586849886239">翻译：如何用媒体流 API 录音</a></li>
-          <li><a href="https://juejin.cn/post/7008543826432229390">翻译：为什么我不使用类</a></li>
-          <li><a href="https://juejin.cn/post/7007790115732848670">翻译：use-subscription</a></li>
-          <li><a href="https://juejin.cn/post/7006868198033211429">翻译：0147-use-mutable-source.md</a></li>
-          <li><a href="https://juejin.cn/post/7004121754134118436">翻译：基于函数的组件 API（扩展讨论）#55</a></li>
-        </ul>
-      </div>
-      <div class="learn">
-        <ul>
-          <li><a href="https://web.dev">web.dev</a></li>
-          <li><a href="https://javascriptweekly.com">JavaScript Weekly</a></li>
-          <li><a href="https://bestofjs.org">bestofjs</a></li>
-          <li><a href="https://css-tricks.com">CSS-TRICKS</a></li>
-        </ul>
-      </div>
-      <div class="tool">
-        <ul>
-          <li><a href="/tool/json-format">JSON 格式化工具</a></li>
-          <li><a href="/tool/color-transform">CSS 颜色转换工具</a></li>
-          <li><a href="/tool/rgb2hex">RGB-HEX 互转</a></li>
-          <li><a href="/tool/escape">Unicode-中文互转</a></li>
-          <li><a href="/tool/pbview">Protobuf 解码</a></li>
-          <li><a href="/tool/miniwebgl">WebGL 最小示例</a></li>
-          <li><a href="/tool/flightboard">航班大屏示例</a></li>
-        </ul>
-      </div>
-    </main>
-    <footer>
-      <a href="mailto:shaojun.y@icloud.com">shaojun.y@icloud.com</a>
-    </footer>
+    </div>
+    <div class="experience">
+      <ul>
+        <li><span>2021.3 - 至今</span><span>字节跳动</span><span>前端开发工程师</span></li>
+        <li><span>2018.2 - 2021.3</span><span>滴滴出行</span><span>高级软件开发工程师（前端）</span></li>
+        <li><span>2015.7 - 2018.1</span><span>奇虎360</span><span>测试开发工程师</span></li>
+        <li><span>2011.8 - 2015.7</span><span>西安电子科技大学</span><span>计算机科学与技术</span></li>
+      </ul>
+    </div>
+    <div class="article">
+      <ul>
+        <li><a href="https://juejin.cn/post/6844903881500016654">前端演进思考</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/4">盘点前端领域的六个方向</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/2">学习 JavaScript 的三大门槛</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/3">学习 CSS 的两大要点</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/15">小程序的一些事</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/13">从 alicloud-console-os 看微前端</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/5">为什么我觉得 MobX 不适合 React</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/10">初探 WebAssembly</a></li>
+        <li><a href="https://github.com/yshaojun/blog/issues/14">彻底弄懂 Mixed content</a></li>
+        <li><a href="https://zhuanlan.zhihu.com/p/276574914">终于读懂 Hooks</a></li>
+        <li><a href="https://zhuanlan.zhihu.com/p/350394838">如何理解Hooks里不能异步获取State</a></li>
+        <li><a href="https://juejin.cn/post/7000339282942492709">如何设计一个插件系统</a></li>
+        <li><a href="https://zhuanlan.zhihu.com/p/338287250">如何优雅的写动态加载</a></li>
+        <li><a href="https://juejin.cn/post/6844903862264938503">VSCode 插件开发</a></li>
+        <li><a href="https://zhuanlan.zhihu.com/p/378058085">盘点拉胯代码的三个特征</a></li>
+        <li><a href="https://zhuanlan.zhihu.com/p/270661450">软件工程师的三个层次</a></li>
+        <li><a href="https://book.douban.com/review/13814586/">信息传读后感</a></li>
+      </ul>
+    </div>
+    <div class="translation">
+      <ul>
+        <li><a href="https://juejin.cn/post/7022181097614082084">翻译：最小能力原则</a></li>
+        <li><a href="https://juejin.cn/post/7017473055790202916">翻译：通过一个游戏学习 JavaScript</a></li>
+        <li><a href="https://juejin.cn/post/7013750002216337444">翻译：使用 Cypress 测试 HTML canvas</a></li>
+        <li><a href="https://juejin.cn/post/7012214586849886239">翻译：如何用媒体流 API 录音</a></li>
+        <li><a href="https://juejin.cn/post/7008543826432229390">翻译：为什么我不使用类</a></li>
+        <li><a href="https://juejin.cn/post/7007790115732848670">翻译：use-subscription</a></li>
+        <li><a href="https://juejin.cn/post/7006868198033211429">翻译：0147-use-mutable-source.md</a></li>
+        <li><a href="https://juejin.cn/post/7004121754134118436">翻译：基于函数的组件 API（扩展讨论）#55</a></li>
+      </ul>
+    </div>
+    <div class="learn">
+      <ul>
+        <li><a href="https://web.dev">web.dev</a></li>
+        <li><a href="https://javascriptweekly.com">JavaScript Weekly</a></li>
+        <li><a href="https://bestofjs.org">bestofjs</a></li>
+        <li><a href="https://css-tricks.com">CSS-TRICKS</a></li>
+      </ul>
+    </div>
+    <div class="tool">
+      <ul>
+        <li><a href="/tool/json-format">JSON 格式化工具</a></li>
+        <li><a href="/tool/color-transform">CSS 颜色转换工具</a></li>
+        <li><a href="/tool/rgb2hex">RGB-HEX 互转</a></li>
+        <li><a href="/tool/escape">Unicode-中文互转</a></li>
+        <li><a href="/tool/pbview">Protobuf 解码</a></li>
+        <li><a href="/tool/miniwebgl">WebGL 最小示例</a></li>
+        <li><a href="/tool/flightboard">航班大屏示例</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer>
+    <a href="mailto:shaojun.y@icloud.com">shaojun.y@icloud.com</a>
+  </footer>
 
-    <script>
-      (function(name,factory){if(typeof window==="object"){window[name]=factory()}})("Ribbons",function(){var _w=window,_b=document.body,_d=document.documentElement;var random=function(){if(arguments.length===1){if(Array.isArray(arguments[0])){var index=Math.round(random(0,arguments[0].length-1));return arguments[0][index]}return random(0,arguments[0])}else{if(arguments.length===2){return Math.random()*(arguments[1]-arguments[0])+arguments[0]}}return 0};var screenInfo=function(e){var width=Math.max(0,_w.innerWidth||_d.clientWidth||_b.clientWidth||0),height=Math.max(0,_w.innerHeight||_d.clientHeight||_b.clientHeight||0),scrollx=Math.max(0,_w.pageXOffset||_d.scrollLeft||_b.scrollLeft||0)-(_d.clientLeft||0),scrolly=Math.max(0,_w.pageYOffset||_d.scrollTop||_b.scrollTop||0)-(_d.clientTop||0);return{width:width,height:height,ratio:width/height,centerx:width/2,centery:height/2,scrollx:scrollx,scrolly:scrolly}};var mouseInfo=function(e){var screen=screenInfo(e),mousex=e?Math.max(0,e.pageX||e.clientX||0):0,mousey=e?Math.max(0,e.pageY||e.clientY||0):0;return{mousex:mousex,mousey:mousey,centerx:mousex-screen.width/2,centery:mousey-screen.height/2}};var Point=function(x,y){this.x=0;this.y=0;this.set(x,y)};Point.prototype={constructor:Point,set:function(x,y){this.x=x||0;this.y=y||0},copy:function(point){this.x=point.x||0;this.y=point.y||0;return this},multiply:function(x,y){this.x*=x||1;this.y*=y||1;return this},divide:function(x,y){this.x/=x||1;this.y/=y||1;return this},add:function(x,y){this.x+=x||0;this.y+=y||0;return this},subtract:function(x,y){this.x-=x||0;this.y-=y||0;return this},clampX:function(min,max){this.x=Math.max(min,Math.min(this.x,max));return this},clampY:function(min,max){this.y=Math.max(min,Math.min(this.y,max));return this},flipX:function(){this.x*=-1;return this},flipY:function(){this.y*=-1;return this}};var Factory=function(options){this._canvas=null;this._context=null;this._sto=null;this._width=0;this._height=0;this._scroll=0;this._ribbons=[];this._options={colorSaturation:"80%",colorBrightness:"60%",colorAlpha:0.65,colorCycleSpeed:6,verticalPosition:"center",horizontalSpeed:200,ribbonCount:1,strokeSize:0,parallaxAmount:-0.5,animateSections:true};this._onDraw=this._onDraw.bind(this);this._onResize=this._onResize.bind(this);this._onScroll=this._onScroll.bind(this);this.setOptions(options);this.init()};Factory.prototype={constructor:Factory,setOptions:function(options){if(typeof options==="object"){for(var key in options){if(options.hasOwnProperty(key)){this._options[key]=options[key]}}}},init:function(){try{this._canvas=document.createElement("canvas");this._canvas.style["display"]="block";this._canvas.style["position"]="fixed";this._canvas.style["margin"]="0";this._canvas.style["padding"]="0";this._canvas.style["border"]="0";this._canvas.style["outline"]="0";this._canvas.style["left"]="0";this._canvas.style["top"]="0";this._canvas.style["width"]="100%";this._canvas.style["height"]="100%";this._canvas.style["z-index"]="-1";this._canvas.style["background-color"]="#fff";this._canvas.id="bgCanvas";this._onResize();this._context=this._canvas.getContext("2d");this._context.clearRect(0,0,this._width,this._height);this._context.globalAlpha=this._options.colorAlpha;window.addEventListener("scroll",this._onScroll);document.body.appendChild(this._canvas)}catch(e){console.warn("Canvas Context Error: "+e.toString());return}this._onDraw()},addRibbon:function(){var dir=Math.round(random(1,9))>5?"right":"left",stop=1000,hide=200,min=0-hide,max=this._width+hide,movex=0,movey=0,startx=dir==="right"?min:max,starty=Math.round(random(0,this._height));if(/^(top|min)$/i.test(this._options.verticalPosition)){starty=0+hide}else{if(/^(middle|center)$/i.test(this._options.verticalPosition)){starty=this._height/2}else{if(/^(bottom|max)$/i.test(this._options.verticalPosition)){starty=this._height-hide}}}var ribbon=[],point1=new Point(startx,starty),point2=new Point(startx,starty),point3=null,color=Math.round(random(0,360)),delay=0;while(true){if(stop<=0){break}stop--;movex=Math.round((Math.random()*1-0.2)*this._options.horizontalSpeed);movey=Math.round((Math.random()*1-0.5)*(this._height*0.25));point3=new Point();point3.copy(point2);if(dir==="right"){point3.add(movex,movey);if(point2.x>=max){break}}else{if(dir==="left"){point3.subtract(movex,movey);if(point2.x<=min){break}}}ribbon.push({point1:new Point(point1.x,point1.y),point2:new Point(point2.x,point2.y),point3:point3,color:color,delay:delay,dir:dir,alpha:0,phase:0});point1.copy(point2);point2.copy(point3);delay+=4;color+=this._options.colorCycleSpeed}this._ribbons.push(ribbon)},_drawRibbonSection:function(section){if(section){if(section.phase>=1&&section.alpha<=0){return true}if(section.delay<=0){section.phase+=0.02;section.alpha=Math.sin(section.phase)*1;section.alpha=section.alpha<=0?0:section.alpha;section.alpha=section.alpha>=1?1:section.alpha;if(this._options.animateSections){var mod=Math.sin(1+section.phase*Math.PI/2)*0.1;if(section.dir==="right"){section.point1.add(mod,0);
-section.point2.add(mod,0);section.point3.add(mod,0)}else{section.point1.subtract(mod,0);section.point2.subtract(mod,0);section.point3.subtract(mod,0)}section.point1.add(0,mod);section.point2.add(0,mod);section.point3.add(0,mod)}}else{section.delay-=0.5}var s=this._options.colorSaturation,l=this._options.colorBrightness,c="hsla("+section.color+", "+s+", "+l+", "+section.alpha+" )";this._context.save();if(this._options.parallaxAmount!==0){this._context.translate(0,this._scroll*this._options.parallaxAmount)}this._context.beginPath();this._context.moveTo(section.point1.x,section.point1.y);this._context.lineTo(section.point2.x,section.point2.y);this._context.lineTo(section.point3.x,section.point3.y);this._context.fillStyle=c;this._context.fill();if(this._options.strokeSize>0){this._context.lineWidth=this._options.strokeSize;this._context.strokeStyle=c;this._context.lineCap="round";this._context.stroke()}this._context.restore()}return false},_onDraw:function(){for(var i=0,t=this._ribbons.length;i<t;++i){if(!this._ribbons[i]){this._ribbons.splice(i,1)}}this._context.clearRect(0,0,this._width,this._height);for(var a=0;a<this._ribbons.length;++a){var ribbon=this._ribbons[a],numSections=ribbon.length,numDone=0;for(var b=0;b<numSections;++b){if(this._drawRibbonSection(ribbon[b])){numDone++}}if(numDone>=numSections){this._ribbons[a]=null}}if(this._ribbons.length<this._options.ribbonCount){this.addRibbon()}},_onResize:function(e){var screen=screenInfo(e);this._width=screen.width;this._height=screen.height;if(this._canvas){this._canvas.width=this._width;this._canvas.height=this._height;if(this._context){this._context.globalAlpha=this._options.colorAlpha}}},_onScroll:function(e){var screen=screenInfo(e);this._scroll=screen.scrolly}};return Factory});
+  <script>
+    (function (name, factory) { if (typeof window === "object") { window[name] = factory() } })("Ribbons", function () {
+      var _w = window, _b = document.body, _d = document.documentElement; var random = function () { if (arguments.length === 1) { if (Array.isArray(arguments[0])) { var index = Math.round(random(0, arguments[0].length - 1)); return arguments[0][index] } return random(0, arguments[0]) } else { if (arguments.length === 2) { return Math.random() * (arguments[1] - arguments[0]) + arguments[0] } } return 0 }; var screenInfo = function (e) { var width = Math.max(0, _w.innerWidth || _d.clientWidth || _b.clientWidth || 0), height = Math.max(0, _w.innerHeight || _d.clientHeight || _b.clientHeight || 0), scrollx = Math.max(0, _w.pageXOffset || _d.scrollLeft || _b.scrollLeft || 0) - (_d.clientLeft || 0), scrolly = Math.max(0, _w.pageYOffset || _d.scrollTop || _b.scrollTop || 0) - (_d.clientTop || 0); return { width: width, height: height, ratio: width / height, centerx: width / 2, centery: height / 2, scrollx: scrollx, scrolly: scrolly } }; var mouseInfo = function (e) { var screen = screenInfo(e), mousex = e ? Math.max(0, e.pageX || e.clientX || 0) : 0, mousey = e ? Math.max(0, e.pageY || e.clientY || 0) : 0; return { mousex: mousex, mousey: mousey, centerx: mousex - screen.width / 2, centery: mousey - screen.height / 2 } }; var Point = function (x, y) { this.x = 0; this.y = 0; this.set(x, y) }; Point.prototype = { constructor: Point, set: function (x, y) { this.x = x || 0; this.y = y || 0 }, copy: function (point) { this.x = point.x || 0; this.y = point.y || 0; return this }, multiply: function (x, y) { this.x *= x || 1; this.y *= y || 1; return this }, divide: function (x, y) { this.x /= x || 1; this.y /= y || 1; return this }, add: function (x, y) { this.x += x || 0; this.y += y || 0; return this }, subtract: function (x, y) { this.x -= x || 0; this.y -= y || 0; return this }, clampX: function (min, max) { this.x = Math.max(min, Math.min(this.x, max)); return this }, clampY: function (min, max) { this.y = Math.max(min, Math.min(this.y, max)); return this }, flipX: function () { this.x *= -1; return this }, flipY: function () { this.y *= -1; return this } }; var Factory = function (options) { this._canvas = null; this._context = null; this._sto = null; this._width = 0; this._height = 0; this._scroll = 0; this._ribbons = []; this._options = { colorSaturation: "80%", colorBrightness: "60%", colorAlpha: 0.65, colorCycleSpeed: 6, verticalPosition: "center", horizontalSpeed: 200, ribbonCount: 1, strokeSize: 0, parallaxAmount: -0.5, animateSections: true }; this._onDraw = this._onDraw.bind(this); this._onResize = this._onResize.bind(this); this._onScroll = this._onScroll.bind(this); this.setOptions(options); this.init() }; Factory.prototype = {
+        constructor: Factory, setOptions: function (options) { if (typeof options === "object") { for (var key in options) { if (options.hasOwnProperty(key)) { this._options[key] = options[key] } } } }, init: function () { try { this._canvas = document.createElement("canvas"); this._canvas.style["display"] = "block"; this._canvas.style["position"] = "fixed"; this._canvas.style["margin"] = "0"; this._canvas.style["padding"] = "0"; this._canvas.style["border"] = "0"; this._canvas.style["outline"] = "0"; this._canvas.style["left"] = "0"; this._canvas.style["top"] = "0"; this._canvas.style["width"] = "100%"; this._canvas.style["height"] = "100%"; this._canvas.style["z-index"] = "-1"; this._canvas.style["background-color"] = "#fff"; this._canvas.id = "bgCanvas"; this._onResize(); this._context = this._canvas.getContext("2d"); this._context.clearRect(0, 0, this._width, this._height); this._context.globalAlpha = this._options.colorAlpha; window.addEventListener("scroll", this._onScroll); document.body.appendChild(this._canvas) } catch (e) { console.warn("Canvas Context Error: " + e.toString()); return } this._onDraw() }, addRibbon: function () { var dir = Math.round(random(1, 9)) > 5 ? "right" : "left", stop = 1000, hide = 200, min = 0 - hide, max = this._width + hide, movex = 0, movey = 0, startx = dir === "right" ? min : max, starty = Math.round(random(0, this._height)); if (/^(top|min)$/i.test(this._options.verticalPosition)) { starty = 0 + hide } else { if (/^(middle|center)$/i.test(this._options.verticalPosition)) { starty = this._height / 2 } else { if (/^(bottom|max)$/i.test(this._options.verticalPosition)) { starty = this._height - hide } } } var ribbon = [], point1 = new Point(startx, starty), point2 = new Point(startx, starty), point3 = null, color = Math.round(random(0, 360)), delay = 0; while (true) { if (stop <= 0) { break } stop--; movex = Math.round((Math.random() * 1 - 0.2) * this._options.horizontalSpeed); movey = Math.round((Math.random() * 1 - 0.5) * (this._height * 0.25)); point3 = new Point(); point3.copy(point2); if (dir === "right") { point3.add(movex, movey); if (point2.x >= max) { break } } else { if (dir === "left") { point3.subtract(movex, movey); if (point2.x <= min) { break } } } ribbon.push({ point1: new Point(point1.x, point1.y), point2: new Point(point2.x, point2.y), point3: point3, color: color, delay: delay, dir: dir, alpha: 0, phase: 0 }); point1.copy(point2); point2.copy(point3); delay += 4; color += this._options.colorCycleSpeed } this._ribbons.push(ribbon) }, _drawRibbonSection: function (section) {
+          if (section) {
+            if (section.phase >= 1 && section.alpha <= 0) { return true } if (section.delay <= 0) {
+              section.phase += 0.02; section.alpha = Math.sin(section.phase) * 1; section.alpha = section.alpha <= 0 ? 0 : section.alpha; section.alpha = section.alpha >= 1 ? 1 : section.alpha; if (this._options.animateSections) {
+                var mod = Math.sin(1 + section.phase * Math.PI / 2) * 0.1; if (section.dir === "right") {
+                  section.point1.add(mod, 0);
+                  section.point2.add(mod, 0); section.point3.add(mod, 0)
+                } else { section.point1.subtract(mod, 0); section.point2.subtract(mod, 0); section.point3.subtract(mod, 0) } section.point1.add(0, mod); section.point2.add(0, mod); section.point3.add(0, mod)
+              }
+            } else { section.delay -= 0.5 } var s = this._options.colorSaturation, l = this._options.colorBrightness, c = "hsla(" + section.color + ", " + s + ", " + l + ", " + section.alpha + " )"; this._context.save(); if (this._options.parallaxAmount !== 0) { this._context.translate(0, this._scroll * this._options.parallaxAmount) } this._context.beginPath(); this._context.moveTo(section.point1.x, section.point1.y); this._context.lineTo(section.point2.x, section.point2.y); this._context.lineTo(section.point3.x, section.point3.y); this._context.fillStyle = c; this._context.fill(); if (this._options.strokeSize > 0) { this._context.lineWidth = this._options.strokeSize; this._context.strokeStyle = c; this._context.lineCap = "round"; this._context.stroke() } this._context.restore()
+          } return false
+        }, _onDraw: function () { for (var i = 0, t = this._ribbons.length; i < t; ++i) { if (!this._ribbons[i]) { this._ribbons.splice(i, 1) } } this._context.clearRect(0, 0, this._width, this._height); for (var a = 0; a < this._ribbons.length; ++a) { var ribbon = this._ribbons[a], numSections = ribbon.length, numDone = 0; for (var b = 0; b < numSections; ++b) { if (this._drawRibbonSection(ribbon[b])) { numDone++ } } if (numDone >= numSections) { this._ribbons[a] = null } } if (this._ribbons.length < this._options.ribbonCount) { this.addRibbon() } }, _onResize: function (e) { var screen = screenInfo(e); this._width = screen.width; this._height = screen.height; if (this._canvas) { this._canvas.width = this._width; this._canvas.height = this._height; if (this._context) { this._context.globalAlpha = this._options.colorAlpha } } }, _onScroll: function (e) { var screen = screenInfo(e); this._scroll = screen.scrolly }
+      }; return Factory
+    });
 
-      window.onload = function() {
-        /** ribbons */
-        const ribbons = new Ribbons()
-        const array = new Array(100).fill(1)
+    window.onload = function () {
+      /** ribbons */
+      const ribbons = new Ribbons()
+      const array = new Array(100).fill(1)
 
+      array.forEach(() => ribbons._onDraw())
+
+      document.addEventListener('click', () => {
         array.forEach(() => ribbons._onDraw())
+      })
 
-        document.addEventListener('click', () => {
-          array.forEach(() => ribbons._onDraw())
-        })
+      /** tap effect */
+      async function tapWord(id) {
+        const elem = document.getElementById(id)
+        const words = elem.innerText.split('')
 
-        /** tap effect */
-        async function tapWord(id) {
-          const elem = document.getElementById(id)
-          const words = elem.innerText.split('')
-
-          let text = elem.innerText = ''
-          for (const word of words) {
-            elem.innerText = (text += word)
-            await new Promise(r => setTimeout(r, 150))
-          }
+        let text = elem.innerText = ''
+        for (const word of words) {
+          elem.innerText = (text += word)
+          await new Promise(r => setTimeout(r, 150))
         }
+      }
 
-        tapWord('title').then(() => {
-          document.getElementById('content').className = ''
+      tapWord('title').then(() => {
+        document.getElementById('content').className = ''
+      })
+
+      /** tabs */
+      const nav = document.querySelector('nav')
+      const main = document.querySelector('main')
+
+      function initTab(tab) {
+        [...nav.children].forEach(child => {
+          child.className = child === tab ? 'active' : ''
         })
-
-        /** tabs */
-        const nav = document.querySelector('nav')
-        const main = document.querySelector('main')
-
-        function initTab(tab) {
-          [...nav.children].forEach(child => {
-            child.className = child === tab ? 'active' : ''
-          })
 
           ;[...main.children].forEach(child => {
             child.className = child.className.replace(' active', '')
@@ -284,15 +310,16 @@ section.point2.add(mod,0);section.point3.add(mod,0)}else{section.point1.subtract
               child.className = child.className + ' active'
             }
           })
-        }
-
-        if (location.hash) {
-          const tab = [...nav.children].find(a => a.hash === location.hash);
-          initTab(tab);
-        }
-
-        nav.addEventListener('click', e => initTab(e.target))
       }
-    </script>
-  </body>
+
+      if (location.hash) {
+        const tab = [...nav.children].find(a => a.hash === location.hash);
+        initTab(tab);
+      }
+
+      nav.addEventListener('click', e => initTab(e.target))
+    }
+  </script>
+</body>
+
 </html>
